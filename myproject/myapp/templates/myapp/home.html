@@ -1,0 +1,9 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+<div class="text-center py-5">
+  <h1>Welcome to Peddle Camp!</h1>
+  <p class="lead">Discover and explore our exciting camps.</p>
+  <a href="{% url 'myapp:camp-list' %}" class="btn btn-primary btn-lg">Go to Camp List</a>
+</div>
+{% endblock %}

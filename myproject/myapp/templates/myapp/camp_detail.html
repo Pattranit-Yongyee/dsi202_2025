@@ -1,0 +1,9 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+  {% if camp.image %}
+    <img src="{{ camp.image.url }}" class="img-fluid mb-4" alt="{{ camp.title }}">
+  {% endif %}
+  <h2>CAMP NAME: {{ camp.title }}</h2>
+  <p><strong>DETAIL:</strong> {{ camp.detail }}</p>
+{% endblock %}
