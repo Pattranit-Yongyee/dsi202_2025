@@ -1,0 +1,33 @@
+{% extends 'camps/base.html' %}
+{% block title %}{{ camp.camp_name }}{% endblock %}
+{% block content %}
+    <h2>{{ camp.camp_name }}</h2>
+    <div style="max-width: 800px; margin: 0 auto; padding: 20px;">
+        {% if camp.poster %}
+            <img src="{{ camp.poster.url }}" alt="{{ camp.camp_name }}" style="max-width: 100%; height: auto; margin-bottom: 20px;">
+        {% endif %}
+        <p><strong>ชื่อผู้จัด:</strong> {{ camp.organizer_name }}</p>
+        <p><strong>อีเมล:</strong> {{ camp.email }}</p>
+        <p><strong>เบอร์โทร:</strong> {{ camp.phone_num }}</p>
+        <p><strong>รายละเอียดแคมป์:</strong> {{ camp.detail_camp }}</p>
+        <p><strong>วันที่เริ่ม:</strong> {{ camp.start_date }}</p>
+        <p><strong>วันที่สิ้นสุด:</strong> {{ camp.final_date }}</p>
+        <p><strong>รายละเอียดเพิ่มเติม:</strong> {{ camp.add_detail|default:"N/A" }}</p>
+        <p><strong>วันครบกำหนด:</strong> {{ camp.due_date }}</p>
+        <p><strong>จำนวนผู้สมัคร:</strong> {{ camp.num_candi }}</p>
+        <p><strong>ราคา:</strong> {{ camp.price }} THB</p>
+        <p><strong>คุณสมบัติผู้สมัคร:</strong> {{ camp.candi_proper }}</p>
+        <p><strong>สถานที่:</strong> {{ camp.place }}</p>
+        <p><strong>Instagram:</strong> <a href="{{ camp.ig }}" target="_blank">{{ camp.ig|default:"N/A" }}</a></p>
+        <p><strong>Facebook:</strong> <a href="{{ camp.facebook }}" target="_blank">{{ camp.facebook|default:"N/A" }}</a></p>
+        <p><strong>Line:</strong> {{ camp.line|default:"N/A" }}</p>
+        <p><strong>เว็บไซต์:</strong> <a href="{{ camp.website }}" target="_blank">{{ camp.website|default:"N/A" }}</a></p>
+        <p><strong>ลิงก์แคมป์:</strong> <a href="{{ camp.linkcamp }}" target="_blank">{{ camp.linkcamp|default:"N/A" }}</a></p>
+        <p><strong>รายละเอียดกิจกรรม:</strong> {{ camp.detail_activity }}</p>
+        {% if camp.upload_file %}
+            <p><strong>ไฟล์อัปโหลด:</strong> <a href="{{ camp.upload_file.url }}" target="_blank">ดาวน์โหลด</a></p>
+        {% endif %}
+        <p><strong>วันที่ส่ง:</strong> {{ camp.submit }}</p>
+        <p><strong>สถานะ:</strong> {{ camp.status }}</p>
+    </div>
+{% endblock %}

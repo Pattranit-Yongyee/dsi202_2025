@@ -1,0 +1,10 @@
+{% extends 'camps/base.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+    <h2>Profile</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+{% endblock %}

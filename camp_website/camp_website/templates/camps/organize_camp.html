@@ -1,0 +1,10 @@
+{% extends 'camps/base.html' %}
+{% block title %}Organize Camp{% endblock %}
+{% block content %}
+    <h2>Organize a New Camp</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+{% endblock %}
