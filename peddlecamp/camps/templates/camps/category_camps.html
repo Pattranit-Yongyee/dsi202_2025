@@ -1,18 +1,22 @@
 {% extends 'camps/base.html' %}
 
 {% block content %}
-<h2>หมวดหมู่: {{ category_display }}</h2>
-
-{% for camp in camps %}
-    <div class="camp-card">
-        {% if camp.image %}
-            <img src="{{ camp.image.url }}" alt="{{ camp.title }}">
-        {% endif %}
-        <h3>{{ camp.title }}</h3>
-        <p>{{ camp.description }}</p>
-        <a href="{% url 'camp_detail' camp.id %}" class="btn">รายละเอียด</a>
-    </div>
-{% empty %}
-    <p>ไม่มีค่ายในหมวดหมู่นี้</p>
-{% endfor %}
+    <h2>ค่ายในหมวด {{ category_name }}</h2>
+    {% for camp in camps %}
+        <div class="camp-card">
+            {% if camp.image %}
+                <img src="{{ camp.image.url }}" alt="{{ camp.title }}">
+            {% else %}
+                <img src="https://via.placeholder.com/200" alt="Placeholder">
+            {% endif %}
+            <div class="camp-card-content">
+                <h3>{{ camp.title }}</h3>
+                <p>{{ camp.description }}</p>
+                <p><strong>จำนวนผู้เข้าร่วม:</strong> {{ camp.participants }}</p>
+                <p><strong>สถานที่:</strong> {{ camp.location }}</p>
+                <p><strong>ค่าใช้จ่าย:</strong> {{ camp.fee }}</p>
+                <a href="{% url 'camp_detail' camp.id %}" class="btn">รายละเอียดเพิ่มเติม</a>
+            </div>
+        </div>
+    {% endfor %}
 {% endblock %}

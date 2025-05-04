@@ -1,33 +1,21 @@
 {% extends 'camps/base.html' %}
 
 {% block content %}
-<div class="camp-detail">
-    <h2>{{ camp.title }}</h2>
-
-    {% if camp.image %}
-        <img src="{{ camp.image.url }}" alt="Camp Image" style="max-width: 100%; display: block; margin: 20px auto;">
-    {% else %}
-        <img src="https://via.placeholder.com/300" alt="Placeholder" style="max-width: 100%; display: block; margin: 20px auto;">
-    {% endif %}
-
-    <p>{{ camp.description }}</p>
-
-    <p><strong>วันรับสมัครถึง:</strong> {{ camp.application_deadline }}</p>
-    <p><strong>วันเริ่มค่าย:</strong> {{ camp.camp_start_date }}</p>
-    <p><strong>วันสิ้นสุดค่าย:</strong> {{ camp.camp_end_date }}</p>
-    
-    <p><strong>จำนวนผู้เข้าร่วม:</strong> {{ camp.participants }}</p>
-    
-    {% if camp.mode == 'onsite' %}
+    <div class="camp-detail">
+        <h2>{{ camp.title }}</h2>
+        {% if camp.image %}
+            <img src="{{ camp.image.url }}" alt="Camp Image">
+        {% else %}
+            <img src="https://via.placeholder.com/300" alt="Placeholder" style="max-width: 100%; display: block; margin: 20px auto;">
+        {% endif %}
+        <p>{{ camp.description }}</p>
+        <p><strong>จำนวนผู้เข้าร่วม:</strong> {{ camp.participants }}</p>
         <p><strong>สถานที่:</strong> {{ camp.location }}</p>
-    {% endif %}
-    
-    <p><strong>ค่าใช้จ่าย:</strong> {{ camp.fee }}</p>
-    <p><strong>หมวดหมู่:</strong> {{ camp.get_category_display }}</p>
-    <p><strong>ผู้จัด:</strong> {{ camp.organizer }}</p>
-    <p><strong>ช่องทางติดต่อ:</strong> {{ camp.contact_info }}</p>
-
-    <a href="https://forms.google.com" class="register-btn">ลงทะเบียนผ่าน Google Forms</a>
-    <a href="{% url 'home' %}" class="btn">กลับสู่หน้าหลัก</a>
-</div>
+        <p><strong>ค่าใช้จ่าย:</strong> {{ camp.fee }}</p>
+        <p><strong>วันที่เริ่มค่าย:</strong> {{ camp.camp_start_date }}</p>
+        <p><strong>วันที่สิ้นสุดค่าย:</strong> {{ camp.camp_end_date }}</p>
+        <p><strong>วันที่รับสมัคร:</strong> {{ camp.application_deadline }}</p>
+        <a href="https://forms.google.com" class="register-btn">ลงทะเบียนผ่าน Google Forms</a>
+        <a href="{% url 'home' %}" class="btn">กลับสู่หน้าหลัก</a>
+    </div>
 {% endblock %}

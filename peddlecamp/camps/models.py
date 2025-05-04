@@ -15,7 +15,7 @@ class Camp(models.Model):
         ('architecture', 'สายสถาปัตยกรรม'),
         ('language', 'สายภาษา'),
         ('volunteer', 'ค่ายจิตอาสา'),
-        ('Digital IT', 'ดิจิตอล ไอที')
+        ('Digital IT', 'สายดิจิตอล ไอที')
     ]
     
     title = models.CharField(max_length=200)
