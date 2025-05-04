@@ -35,51 +35,69 @@
       <div class="w-full max-w-[720px] mx-auto p-4">
         <div class="grid grid-cols-6 gap-6 w-full">
           <!-- ค่ายสายสุขภาพ -->
-          <div class="flex flex-col items-center">
-            <img src="{% static 'images/health.png' %}" alt="สุขภาพ" class="h-8 mb-1" />
-            <span class="text-xs">สุขภาพ</span>
-          </div>
-          <!-- ค่ายสายวิศวกรรม -->
-          <div class="flex flex-col items-center">
-            <img src="{% static 'images/engineer.png' %}" alt="วิศวกรรม" class="h-8 mb-1" />
-            <span class="text-xs">วิศวกรรม</span>
-          </div>
-          <!-- ค่ายสายภาษา -->
-          <div class="flex flex-col items-center">
-            <img src="{% static 'images/language.png' %}" alt="ภาษา" class="h-8 mb-1" />
-            <span class="text-xs">ภาษา</span>
-          </div>
-          <!-- ค่ายสายสถาปัตย์ -->
-          <div class="flex flex-col items-center">
-            <img src="{% static 'images/architecture.png' %}" alt="สถาปัตย์" class="h-8 mb-1" />
-            <span class="text-xs">สถาปัตย์</span>
-          </div>
-          <!-- ค่ายอาสา -->
-          <div class="flex flex-col items-center">
-            <img src="{% static 'images/volunteer.png' %}" alt="อาสา" class="h-8 mb-1" />
-            <span class="text-xs">อาสา</span>
-          </div>
-          <!-- ค่ายสายดิจิทัล/IT -->
-          <div class="flex flex-col items-center">
-            <img src="{% static 'images/digital_it.png' %}" alt="ดิจิทัล/IT" class="h-8 mb-1" />
-            <span class="text-xs text-center">ดิจิทัล/IT</span>
+<a href="{% url 'category_camps' 'health' %}">
+    <div class="flex flex-col items-center hover:opacity-80 transition">
+      <img src="{% static 'images/health.png' %}" alt="สุขภาพ" class="h-8 mb-1" />
+      <span class="text-xs">สุขภาพ</span>
+    </div>
+  </a>
+  
+  <!-- ค่ายสายวิศวกรรม -->
+  <a href="{% url 'category_camps' 'engineering' %}">
+    <div class="flex flex-col items-center hover:opacity-80 transition">
+      <img src="{% static 'images/engineer.png' %}" alt="วิศวกรรม" class="h-8 mb-1" />
+      <span class="text-xs">วิศวกรรม</span>
+    </div>
+  </a>
+  
+  <!-- ค่ายสายภาษา -->
+  <a href="{% url 'category_camps' 'language' %}">
+    <div class="flex flex-col items-center hover:opacity-80 transition">
+      <img src="{% static 'images/language.png' %}" alt="ภาษา" class="h-8 mb-1" />
+      <span class="text-xs">ภาษา</span>
+    </div>
+  </a>
+  
+  <!-- ค่ายสายสถาปัตย์ -->
+  <a href="{% url 'category_camps' 'architecture' %}">
+    <div class="flex flex-col items-center hover:opacity-80 transition">
+      <img src="{% static 'images/architecture.png' %}" alt="สถาปัตย์" class="h-8 mb-1" />
+      <span class="text-xs">สถาปัตย์</span>
+    </div>
+  </a>
+  
+  <!-- ค่ายอาสา -->
+  <a href="{% url 'category_camps' 'volunteer' %}">
+    <div class="flex flex-col items-center hover:opacity-80 transition">
+      <img src="{% static 'images/volunteer.png' %}" alt="อาสา" class="h-8 mb-1" />
+      <span class="text-xs">อาสา</span>
+    </div>
+  </a>
+  
+  <!-- ค่ายสายดิจิทัล/IT -->
+  <a href="{% url 'category_camps' 'digital-it' %}">
+    <div class="flex flex-col items-center hover:opacity-80 transition">
+      <img src="{% static 'images/digital_it.png' %}" alt="ดิจิทัล/IT" class="h-8 mb-1" />
+      <span class="text-xs text-center">ดิจิทัล/IT</span>
+    </div>
+  </a>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Button for Promote Activity -->
-    <div class="hidden md:flex bg-[#003049] text-white">
-      <div class="container mx-auto flex justify-center p-4">
-        <button class="w-36 bg-[#CD4236] px-4 py-2 rounded">
-          โปรโมทกิจกรรม
-        </button>
-      </div>
+ <!-- Button for Promote Activity -->
+ <div class="hidden md:flex bg-[#003049] text-white">
+    <div class="container mx-auto flex justify-center p-4">
+      <a href="{% url 'add_camp' %}" class="w-36 bg-[#CD4236] px-4 py-2 rounded text-center">
+        โปรโมทกิจกรรม
+      </a>
     </div>
-  </header>
+  </div>
+</header>
 
   <!-- MAIN CONTENT -->
-  <main class="flex-grow container mx-auto p-4">
+<main class="flex-grow px-4 md:px-[70px] py-8">
     {% block content %}{% endblock %}
   </main>
 
@@ -87,7 +105,7 @@
   <footer class="bg-[#003049] text-white py-4">
     <div class="container mx-auto text-center">
       <p class="text-sm">
-        ติดต่อเรา: email@example.com • โทร. 02-123-4567 • ที่อยู่: 123 ถนนตัวอย่าง แขวงตัวอย่าง เขตตัวอย่าง กรุงเทพฯ
+        ติดต่อเรา: Pedddlecamps@example.com • โทร. 02-123-4567
       </p>
     </div>
   </footer>

@@ -1,35 +1,35 @@
 {% extends 'camps/base.html' %}
 
 {% block content %}
-    <h2 class="text-2xl font-bold text-center mb-6">ค่ายที่น่าสนใจ</h2>
+    <h2 class="text-xl font-bold text-center mb-4">ค่ายที่น่าสนใจ</h2>
 
     {% for category_slug, category_info in camps_by_category.items %}
-        <div class="mb-10">
-            <h2 class="text-xl font-bold text-red-500 border-b-2 border-red-500 pb-2 mb-4">{{ category_info.display_name }}</h2>
+        <div class="mb-8 border border-gray-200 rounded-lg shadow-sm p-4 bg-gray-50">
+            <div class="flex items-center justify-between mb-3">
+                <h2 class="text-lg font-semibold text-red-500">
+                    {{ category_info.display_name }}
+                </h2>
+                <a href="{% url 'category_camps' category_slug %}" class="text-sm text-red-500 hover:underline">
+                    ดูค่ายทั้งหมดในหมวดนี้ →
+                </a>
+            </div>
 
-            <!-- แสดงค่าย 3 ค่ายในหมวดหมู่ -->
-            {% for camp in category_info.camps %}
-                <div class="flex flex-col md:flex-row items-start gap-5 p-2.5 border border-gray-300 bg-white rounded-md mb-4 shadow-md">
-                    {% if camp.image %}
-                        <img src="{{ camp.image.url }}" alt="{{ camp.title }}" class="w-full md:w-48 h-auto rounded-md">
-                    {% else %}
-                        <img src="https://via.placeholder.com/200" alt="Placeholder" class="w-full md:w-48 h-auto rounded-md">
-                    {% endif %}
-                    <div class="flex-1">
-                        <h3 class="text-lg font-bold text-indigo-900 mb-2">{{ camp.title }}</h3>
-                        <p class="text-gray-700 mb-2">{{ camp.description }}</p>
-                        <p class="text-gray-800"><strong>จำนวนผู้เข้าร่วม:</strong> {{ camp.participants }}</p>
-                        <p class="text-gray-800"><strong>สถานที่:</strong> {{ camp.location }}</p>
-                        <p class="text-gray-800"><strong>ค่าใช้จ่าย:</strong> {{ camp.fee }}</p>
-                        <a href="{% url 'camp_detail' camp.id %}" class="inline-block mt-2 bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition-colors">รายละเอียดเพิ่มเติม</a>
-                    </div>
-                </div>
-            {% endfor %}
-            <!-- ปุ่มเพิ่มเติม -->
-            <a href="{% url 'category_camps' category_slug %}" class="inline-block mb-6 bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition-colors">เพิ่มเติม</a>
-        </div>
-        <div class="text-center my-5">
-            <a href="{% url 'add_camp' %}" class="inline-block bg-red-500 text-white py-3 px-6 rounded-md text-lg hover:bg-red-600 transition-colors w-64">โปรโมทค่าย/กิจกรรม</a>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {% for camp in category_info.camps %}
+                    <a href="{% url 'camp_detail' camp.id %}" class="block border border-gray-200 bg-white rounded-md p-3 shadow-sm text-sm hover:shadow-md hover:bg-gray-50 transition-all">
+                        {% if camp.image %}
+                            <img src="{{ camp.image.url }}" alt="{{ camp.title }}" class="w-full h-36 object-cover rounded mb-2">
+                        {% else %}
+                            <img src="https://via.placeholder.com/200" alt="Placeholder" class="w-full h-36 object-cover rounded mb-2">
+                        {% endif %}
+                        <h3 class="text-base font-semibold text-indigo-900 mb-1">{{ camp.title }}</h3>
+                        <p class="text-gray-600 mb-1">{{ camp.description|truncatewords:15 }}</p>
+                        <p class="text-gray-700"><strong>ผู้เข้าร่วม:</strong> {{ camp.participants }}</p>
+                        <p class="text-gray-700"><strong>สถานที่:</strong> {{ camp.location }}</p>
+                        <p class="text-gray-700"><strong>ค่าใช้จ่าย:</strong> {{ camp.fee }}</p>
+                    </a>
+                {% endfor %}
+            </div>
         </div>
     {% endfor %}
 {% endblock %}

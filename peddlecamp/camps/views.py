@@ -24,7 +24,7 @@ def home(request):
 
 def category_camps(request, category_slug):
     # แสดงค่ายทั้งหมดในหมวดหมู่
-    camps = Camp.objects.filter(category=category_slug)
+    camps = Camp.objects.filter(category=category_slug, approved=True).order_by('application_deadline')
     category_name = dict(Camp.CATEGORY_CHOICES).get(category_slug, 'Unknown Category')
 
     return render(request, 'camps/category_camps.html', {'camps': camps, 'category_name': category_name})
