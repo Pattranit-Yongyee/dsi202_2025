@@ -28,5 +28,8 @@
             <!-- ปุ่มเพิ่มเติม -->
             <a href="{% url 'category_camps' category_slug %}" class="btn">เพิ่มเติม</a>
         </div>
+        <div style="text-align: center; margin: 20px 0;">
+            <a href="{% url 'add_camp' %}" class="btn register-btn">โปรโมทค่าย/กิจกรรม</a>
+        </div>
     {% endfor %}
 {% endblock %}

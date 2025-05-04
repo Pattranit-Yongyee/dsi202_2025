@@ -33,6 +33,7 @@ class Camp(models.Model):
     organizer = models.CharField(max_length=200, null=True, blank=True)
     contact_info = models.TextField(null=True, blank=True)
     mode = models.CharField(max_length=10, choices=MODE_CHOICES)
+    approved = models.BooleanField(default=False)  # ฟิลด์ใหม่เพื่อแสดงสถานะการอนุมัติ
 
     def __str__(self):
         return self.title

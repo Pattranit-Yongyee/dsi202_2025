@@ -1,0 +1,24 @@
+{% extends 'camps/base.html' %}
+
+{% block content %}
+    <div style="text-align: center; margin-top: 50px;">
+        <h2>ขอบคุณสำหรับการโปรโมทค่าย!</h2>
+        <p>ค่ายของคุณกำลังอยู่ระหว่างการพิจารณาโดยทีมงาน</p>
+        <p>หากต้องการแก้ไขรายละเอียด โปรดติดต่อเราที่ <strong>peddlecamp@gmail.com</strong> หรือโทร 08X-XXX-XXXX</p>
+        <p>คุณจะถูกนำกลับไปยังหน้าแรกใน <span id="countdown">30</span> วินาที</p>
+    </div>
+
+    <script>
+        let seconds = 30;
+        const countdown = document.getElementById("countdown");
+
+        const interval = setInterval(() => {
+            seconds--;
+            countdown.textContent = seconds;
+            if (seconds <= 0) {
+                clearInterval(interval);
+                window.location.href = "/";
+            }
+        }, 1000);
+    </script>
+{% endblock %}

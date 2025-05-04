@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Camp
+from .forms import CampForm
 
 def home(request):
     categories = {
@@ -13,7 +14,7 @@ def home(request):
 
     camps_by_category = {}
     for slug, display_name in categories.items():
-        camps = Camp.objects.filter(category=slug)[:3]  # เลือกค่าย 3 อันดับแรก
+        camps = Camp.objects.filter(category=slug, approved=True)[:3]  # เฉพาะค่ายที่ได้รับการอนุมัติ
         camps_by_category[slug] = {
             'display_name': display_name,
             'camps': camps
@@ -32,3 +33,16 @@ def camp_detail(request, camp_id):
     # แสดงรายละเอียดค่าย
     camp = get_object_or_404(Camp, pk=camp_id)
     return render(request, 'camps/camp_detail.html', {'camp': camp})
+
+def add_camp(request):
+    if request.method == 'POST':
+        form = CampForm(request.POST, request.FILES)
+        if form.is_valid():
+            new_camp = form.save(commit=False)
+            new_camp.approved = False
+            new_camp.save()
+            return render(request, 'camps/camp_submission_success.html')
+    else:
+        form = CampForm()
+
+    return render(request, 'camps/add_camp.html', {'form': form})
