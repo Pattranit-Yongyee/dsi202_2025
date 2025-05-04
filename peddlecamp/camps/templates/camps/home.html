@@ -1,0 +1,33 @@
+{% extends 'camps/base.html' %}
+
+{% block content %}
+<h2 style="text-align: center;">ค่ายที่น่าสนใจ</h2>
+
+{% for category_name, camps in camps_by_category.items %}
+    <div class="camp-section">
+        <h2>{{ category_name }}</h2>
+        
+        <div class="camp-list">
+            {% for camp in camps|slice:":3" %}
+                <div class="camp-card">
+                    {% if camp.image %}
+                        <img src="{{ camp.image.url }}" alt="{{ camp.title }}">
+                    {% else %}
+                        <img src="https://via.placeholder.com/200" alt="Placeholder">
+                    {% endif %}
+                    <div class="camp-card-content">
+                        <h3>{{ camp.title }}</h3>
+                        <p><strong>วันที่:</strong> {{ camp.date }}</p>
+                        <p><strong>สถานที่:</strong> {{ camp.location }}</p>
+                        <a href="{% url 'camp_detail' camp.id %}" class="btn">รายละเอียด</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div style="text-align: right; margin-bottom: 20px;">
+            <a href="{% url 'category_camps' category_name %}" class="btn">ดูทั้งหมด</a>
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}
