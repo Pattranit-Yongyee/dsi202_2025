@@ -1,286 +1,96 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peddle Camp</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        .header {
-            background-color: #1a2a44;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            position: relative;
-        }
-        .header h1 {
-            margin: 0;
-            font-size: 2.5em;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-        .header .logo {
-            color: #e74c3c;
-            font-size: 1.5em;
-        }
-        .nav {
-            background-color: #2c3e50;
-            padding: 10px 0;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .nav a {
-            color: white;
-            margin: 0 15px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-        .nav a:hover {
-            color: #e74c3c;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 0 20px;
-        }
-        .camp-section {
-            margin-bottom: 40px;
-        }
-        .camp-section h2 {
-            color: #e74c3c;
-            font-size: 1.8em;
-            border-bottom: 2px solid #e74c3c;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-        .camp-card {
-            display: flex;
-            border: 1px solid #ddd;
-            margin-bottom: 20px;
-            background-color: white;
-            border-radius: 5px;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .camp-card img {
-            width: 200px;
-            height: auto;
-            object-fit: cover;
-        }
-        .camp-card-content {
-            padding: 20px;
-            flex: 1;
-        }
-        .camp-card-content h3 {
-            margin: 0 0 10px;
-            color: #2c3e50;
-            font-size: 1.5em;
-        }
-        .camp-card-content p {
-            margin: 5px 0;
-            line-height: 1.5;
-        }
-        .camp-card-content strong {
-            color: #1a2a44;
-        }
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #e74c3c;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-        .btn:hover {
-            background-color: #c0392b;
-        }
-        .footer {
-            background-color: #1a2a44;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-        }
-        .footer p {
-            margin: 5px 0;
-        }
-        .register-btn {
-            background-color: #e74c3c;
-            color: white;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 5px;
-            font-size: 1.2em;
-            cursor: pointer;
-            display: block;
-            width: 200px;
-            margin: 20px auto;
-            text-align: center;
-            text-decoration: none;
-        }
-        .register-btn:hover {
-            background-color: #c0392b;
-        }
-
-        /* Responsive Design for Tablets and Mobiles */
-        @media (max-width: 1024px) {
-            .header h1 {
-                font-size: 2em;
-            }
-            .nav a {
-                margin: 0 10px;
-                font-size: 0.9em;
-            }
-            .container {
-                padding: 0 15px;
-            }
-            .camp-card {
-                flex-direction: column;
-            }
-            .camp-card img {
-                width: 100%;
-                height: 200px;
-            }
-            .camp-card-content {
-                padding: 15px;
-            }
-            .camp-card-content h3 {
-                font-size: 1.3em;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.8em;
-            }
-            .nav {
-                padding: 8px 0;
-            }
-            .nav a {
-                display: inline-block;
-                margin: 5px 8px;
-                font-size: 0.85em;
-            }
-            .camp-section h2 {
-                font-size: 1.5em;
-            }
-            .camp-card-content h3 {
-                font-size: 1.2em;
-            }
-            .camp-card-content p {
-                font-size: 0.9em;
-            }
-            .btn {
-                padding: 8px 15px;
-                font-size: 0.9em;
-            }
-            .register-btn {
-                width: 180px;
-                padding: 12px 25px;
-                font-size: 1em;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header h1 {
-                font-size: 1.5em;
-            }
-            .nav {
-                padding: 5px 0;
-            }
-            .nav a {
-                margin: 5px 5px;
-                font-size: 0.8em;
-            }
-            .container {
-                padding: 0 10px;
-            }
-            .camp-section h2 {
-                font-size: 1.3em;
-            }
-            .camp-card img {
-                height: 150px;
-            }
-            .camp-card-content {
-                padding: 10px;
-            }
-            .camp-card-content h3 {
-                font-size: 1.1em;
-            }
-            .camp-card-content p {
-                font-size: 0.85em;
-            }
-            .btn {
-                padding: 6px 12px;
-                font-size: 0.85em;
-            }
-            .footer p {
-                font-size: 0.9em;
-            }
-            .register-btn {
-                width: 160px;
-                padding: 10px 20px;
-                font-size: 0.9em;
-            }
-        }
-        .camp-section {
-    margin-bottom: 40px;
-}
-
-.camp-card {
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
-    margin: 15px 0;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-}
-
-.camp-card img {
-    width: 200px;
-    height: auto;
-    border-radius: 5px;
-}
-
-.camp-card-content {
-    flex: 1;
-}
-
-.btn {
-    display: inline-block;
-    padding: 6px 12px;
-    background-color: #007bff;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-}
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PeddleCamp</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="header">
-        <h1><span class="logo">PEDDLE</span> CAMP</h1>
+<body class="flex flex-col min-h-screen">
+
+  <header>
+    <!-- Mobile Hamburger Navbar -->
+    <div class="flex md:hidden bg-white bg-opacity-90 items-center justify-between p-4">
+      <!-- Hamburger button -->
+      <button class="p-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+      <!-- Logo -->
+      <img src="{% static 'images/logo.png' %}" alt="Logo" class="h-10" />
     </div>
-    <div class="nav">
-        <a href="#">หน้าแรก</a>
-        <a href="#">เกี่ยวกับเรา</a>
-        <a href="#">ติดต่อเรา</a>
+
+    <!-- White Bar: Logo (Desktop only) -->
+    <div class="hidden md:flex bg-white">
+      <div class="container mx-auto flex justify-center p-4">
+        <img src="{% static 'images/logo.png' %}" alt="Logo" class="h-10" />
+      </div>
     </div>
-    <div class="container">
-        {% block content %}
-        {% endblock %}
+
+    <!-- Category Navigation -->
+    <div class="bg-[#003049] text-white">
+      <div class="w-full max-w-[720px] mx-auto p-4">
+        <div class="grid grid-cols-6 gap-6 w-full">
+          <!-- ค่ายสายสุขภาพ -->
+          <div class="flex flex-col items-center">
+            <img src="{% static 'images/health.png' %}" alt="สุขภาพ" class="h-8 mb-1" />
+            <span class="text-xs">สุขภาพ</span>
+          </div>
+          <!-- ค่ายสายวิศวกรรม -->
+          <div class="flex flex-col items-center">
+            <img src="{% static 'images/engineer.png' %}" alt="วิศวกรรม" class="h-8 mb-1" />
+            <span class="text-xs">วิศวกรรม</span>
+          </div>
+          <!-- ค่ายสายภาษา -->
+          <div class="flex flex-col items-center">
+            <img src="{% static 'images/language.png' %}" alt="ภาษา" class="h-8 mb-1" />
+            <span class="text-xs">ภาษา</span>
+          </div>
+          <!-- ค่ายสายสถาปัตย์ -->
+          <div class="flex flex-col items-center">
+            <img src="{% static 'images/architecture.png' %}" alt="สถาปัตย์" class="h-8 mb-1" />
+            <span class="text-xs">สถาปัตย์</span>
+          </div>
+          <!-- ค่ายอาสา -->
+          <div class="flex flex-col items-center">
+            <img src="{% static 'images/volunteer.png' %}" alt="อาสา" class="h-8 mb-1" />
+            <span class="text-xs">อาสา</span>
+          </div>
+          <!-- ค่ายสายดิจิทัล/IT -->
+          <div class="flex flex-col items-center">
+            <img src="{% static 'images/digital_it.png' %}" alt="ดิจิทัล/IT" class="h-8 mb-1" />
+            <span class="text-xs text-center">ดิจิทัล/IT</span>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="footer">
-        <p>เกี่ยวกับ PEDDLE CAMP</p>
-        <p>ติดต่อสอบถาม 08X-XXX-XXXX | Email: peddlecamp@gmail.com</p>
+
+    <!-- Button for Promote Activity -->
+    <div class="hidden md:flex bg-[#003049] text-white">
+      <div class="container mx-auto flex justify-center p-4">
+        <button class="w-36 bg-[#CD4236] px-4 py-2 rounded">
+          โปรโมทกิจกรรม
+        </button>
+      </div>
     </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="flex-grow container mx-auto p-4">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#003049] text-white py-4">
+    <div class="container mx-auto text-center">
+      <p class="text-sm">
+        ติดต่อเรา: email@example.com • โทร. 02-123-4567 • ที่อยู่: 123 ถนนตัวอย่าง แขวงตัวอย่าง เขตตัวอย่าง กรุงเทพฯ
+      </p>
+    </div>
+  </footer>
+
 </body>
 </html>

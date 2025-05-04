@@ -1,21 +1,23 @@
 {% extends 'camps/base.html' %}
 
 {% block content %}
-    <div class="camp-detail">
-        <h2>{{ camp.title }}</h2>
+    <div class="max-w-3xl mx-auto py-6">
+        <h2 class="text-2xl font-bold text-indigo-900 mb-4">{{ camp.title }}</h2>
         {% if camp.image %}
-            <img src="{{ camp.image.url }}" alt="Camp Image">
+            <img src="{{ camp.image.url }}" alt="Camp Image" class="w-full max-w-md mx-auto mb-4 rounded-md">
         {% else %}
-            <img src="https://via.placeholder.com/300" alt="Placeholder" style="max-width: 100%; display: block; margin: 20px auto;">
+            <img src="https://via.placeholder.com/300" alt="Placeholder" class="w-full max-w-md mx-auto mb-4 rounded-md">
         {% endif %}
-        <p>{{ camp.description }}</p>
-        <p><strong>จำนวนผู้เข้าร่วม:</strong> {{ camp.participants }}</p>
-        <p><strong>สถานที่:</strong> {{ camp.location }}</p>
-        <p><strong>ค่าใช้จ่าย:</strong> {{ camp.fee }}</p>
-        <p><strong>วันที่เริ่มค่าย:</strong> {{ camp.camp_start_date }}</p>
-        <p><strong>วันที่สิ้นสุดค่าย:</strong> {{ camp.camp_end_date }}</p>
-        <p><strong>วันที่รับสมัคร:</strong> {{ camp.application_deadline }}</p>
-        <a href="https://forms.google.com" class="register-btn">ลงทะเบียนผ่าน Google Forms</a>
-        <a href="{% url 'home' %}" class="btn">กลับสู่หน้าหลัก</a>
+        <p class="text-gray-700 mb-2">{{ camp.description }}</p>
+        <p class="text-gray-800 mb-1"><strong>จำนวนผู้เข้าร่วม:</strong> {{ camp.participants }}</p>
+        <p class="text-gray-800 mb-1"><strong>สถานที่:</strong> {{ camp.location }}</p>
+        <p class="text-gray-800 mb-1"><strong>ค่าใช้จ่าย:</strong> {{ camp.fee }}</p>
+        <p class="text-gray-800 mb-1"><strong>วันที่เริ่มค่าย:</strong> {{ camp.camp_start_date }}</p>
+        <p class="text-gray-800 mb-1"><strong>วันที่สิ้นสุดค่าย:</strong> {{ camp.camp_end_date }}</p>
+        <p class="text-gray-800 mb-4"><strong>วันที่รับสมัคร:</strong> {{ camp.application_deadline }}</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="https://forms.google.com" class="block bg-red-500 text-white py-3 px-6 rounded-md text-lg hover:bg-red-600 transition-colors w-64 text-center">ลงทะเบียนผ่าน Google Forms</a>
+            <a href="{% url 'home' %}" class="inline-block bg-indigo-800 text-white py-2 px-4 rounded-md hover:bg-indigo-900 transition-colors">กลับสู่หน้าหลัก</a>
+        </div>
     </div>
 {% endblock %}

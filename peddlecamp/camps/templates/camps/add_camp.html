@@ -1,10 +1,12 @@
 {% extends 'camps/base.html' %}
 
 {% block content %}
-    <h2>เพิ่มค่ายใหม่</h2>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn">ยืนยันการเพิ่มค่าย</button>
-    </form>
+    <div class="max-w-2xl mx-auto py-6">
+        <h2 class="text-2xl font-bold text-indigo-900 mb-6">เพิ่มค่ายใหม่</h2>
+        <form method="POST" enctype="multipart/form-data" class="space-y-4">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition-colors">ยืนยันการเพิ่มค่าย</button>
+        </form>
+    </div>
 {% endblock %}
