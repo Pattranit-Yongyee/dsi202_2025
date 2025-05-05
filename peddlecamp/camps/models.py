@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -37,3 +38,23 @@ class Camp(models.Model):
 
     def __str__(self):
         return self.title
+    
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    grade_level = models.CharField(
+        max_length=20,
+        choices=[
+            ('m1', 'ม.1'), ('m2', 'ม.2'), ('m3', 'ม.3'),
+            ('m4', 'ม.4'), ('m5', 'ม.5'), ('m6', 'ม.6'),
+            ('other', 'อื่นๆ'),
+        ],
+        default='other'
+    )
+    other_grade = models.CharField(max_length=100, blank=True, null=True)
+    hobbies = models.TextField(blank=True)
+    interests = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.user.username}'s Profile"

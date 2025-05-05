@@ -1,6 +1,7 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Camp
-from .forms import CampForm
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Camp, UserProfile
+from .forms import CampForm, UserProfileForm
 
 def home(request):
     categories = {
@@ -14,13 +15,19 @@ def home(request):
 
     camps_by_category = {}
     for slug, display_name in categories.items():
-        camps = Camp.objects.filter(category=slug, approved=True)[:3]  # เฉพาะค่ายที่ได้รับการอนุมัติ
+        camps = Camp.objects.filter(category=slug, approved=True)[:3]
         camps_by_category[slug] = {
             'display_name': display_name,
             'camps': camps
         }
 
-    return render(request, 'camps/home.html', {'camps_by_category': camps_by_category})
+    # We need to ensure application_deadline is a DateField in the model for proper sorting
+    close_soon_camps = Camp.objects.filter(approved=True).order_by('application_deadline')[:10]
+
+    return render(request, 'camps/home.html', {
+        'camps_by_category': camps_by_category,
+        'close_soon_camps': close_soon_camps,
+    })
 
 def category_camps(request, category_slug):
     # แสดงค่ายทั้งหมดในหมวดหมู่
@@ -46,3 +53,25 @@ def add_camp(request):
         form = CampForm()
 
     return render(request, 'camps/add_camp.html', {'form': form})
+
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST)
+        if form.is_valid():
+            profile, created = UserProfile.objects.get_or_create(user=request.user)
+            profile.grade_level = form.cleaned_data['grade_level']
+            profile.other_grade = form.cleaned_data['other_grade']
+            profile.hobbies = form.cleaned_data['hobbies']
+            profile.interests = form.cleaned_data['interests']
+            profile.save()
+            return redirect('home')
+    else:
+        profile, created = UserProfile.objects.get_or_create(user=request.user)
+        form = UserProfileForm(initial={
+            'grade_level': profile.grade_level,
+            'other_grade': profile.other_grade,
+            'hobbies': profile.hobbies,
+            'interests': profile.interests,
+        })
+    return render(request, 'camps/profile.html', {'form': form, 'user': request.user})

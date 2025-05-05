@@ -20,13 +20,13 @@
         </svg>
       </button>
       <!-- Logo -->
-      <img src="{% static 'images/logo.png' %}" alt="Logo" class="h-10" />
+      <img src="{% static 'images/logo.png' %}" alt="Logo" class="h-20" />
     </div>
 
     <!-- White Bar: Logo (Desktop only) -->
     <div class="hidden md:flex bg-white">
       <div class="container mx-auto flex justify-center p-4">
-        <img src="{% static 'images/logo.png' %}" alt="Logo" class="h-10" />
+        <img src="{% static 'images/logo.png' %}" alt="Logo" class="h-20" />
       </div>
     </div>
 
@@ -92,6 +92,7 @@
       <a href="{% url 'add_camp' %}" class="w-36 bg-[#CD4236] px-4 py-2 rounded text-center">
         โปรโมทกิจกรรม
       </a>
+      <a href="{% url 'account_login' %}" class="text-white">Login</a>
     </div>
   </div>
 </header>

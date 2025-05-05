@@ -1,5 +1,6 @@
 from django import forms
 from .models import Camp
+from .models import UserProfile
 
 class CampForm(forms.ModelForm):
     class Meta:
@@ -24,3 +25,20 @@ class CampForm(forms.ModelForm):
             'organizer': forms.TextInput(attrs={'class': input_class}),
             'contact_info': forms.TextInput(attrs={'class': input_class}),
         }
+
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['grade_level', 'other_grade', 'hobbies', 'interests']
+
+    def __init__(self, *args, **kwargs):
+        super(UserProfileForm, self).__init__(*args, **kwargs)
+        self.fields['grade_level'] = forms.ChoiceField(
+            choices=[('', 'เลือกระดับชั้น')] + UserProfile._meta.get_field('grade_level').choices,
+            widget=forms.Select(attrs={'class': 'w-full p-2 border rounded'})
+        )
+        self.fields['other_grade'].widget.attrs.update({'class': 'w-full p-2 border rounded', 'placeholder': 'ระบุระดับชั้นอื่นๆ'})
+        self.fields['hobbies'].widget.attrs.update({'class': 'w-full p-2 border rounded', 'placeholder': 'งานอดิเรก (คั่นด้วยเครื่องหมาย ,)'})
+        self.fields['interests'].widget.attrs.update({'class': 'w-full p-2 border rounded', 'placeholder': 'ความสนใจ (คั่นด้วยเครื่องหมาย ,)'})
