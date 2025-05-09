@@ -1,3 +1,7 @@
 Django==4.2
 Pillow
 django-allauth
+requests
+PyJWT>=2.0.0
+cryptography>=3.3.2
+django-widget-tweaks
