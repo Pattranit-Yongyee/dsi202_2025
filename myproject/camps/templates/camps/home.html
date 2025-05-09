@@ -1,0 +1,121 @@
+{% extends 'camps/base.html' %}
+
+{% block content %}
+
+    <h2 class="text-2xl md:text-4xl font-bold text-center mt-20 mb-20 animate-bounce-in tracking-tight text-indigo-900">
+    Welcome to Peddle Camp, The Space where you discover YOURSELF
+  </h2>
+  
+    <h2 class="text-xl font-bold text-center mb-4 text-red-500">ค่ายที่ใกล้ปิดรับสมัคร</h2>
+
+<div class="relative overflow-hidden mb-8">
+  <div id="carousel" class="flex transition-transform duration-500 ease-in-out">
+    {% for camp in close_soon_camps %}
+      <div class="w-full md:w-1/2 flex-shrink-0 px-2">
+        <a href="{% url 'camp_detail' camp.id %}" class="block bg-white border rounded shadow p-4 hover:bg-gray-50">
+          {% if camp.image %}
+            <img src="{{ camp.image.url }}" alt="{{ camp.title }}" class="w-full h-40 object-cover rounded mb-2">
+          {% else %}
+            <img src="https://via.placeholder.com/300x160?text=No+Image" alt="No image" class="w-full h-40 object-cover rounded mb-2">
+          {% endif %}
+          <h3 class="font-semibold text-indigo-900">{{ camp.title }}</h3>
+          <p class="text-sm text-gray-600">{{ camp.description|truncatewords:15 }}</p>
+          <p class="text-sm text-gray-700"><strong>ปิดรับ:</strong> {{ camp.application_deadline }}</p>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- Navigation Buttons -->
+  <button onclick="prevSlide()" class="absolute left-0 top-1/2 -translate-y-1/2 bg-white px-2 py-1 shadow rounded-full z-10">
+    ‹
+  </button>
+  <button onclick="nextSlide()" class="absolute right-0 top-1/2 -translate-y-1/2 bg-white px-2 py-1 shadow rounded-full z-10">
+    ›
+  </button>
+</div>
+
+    {% for category_slug, category_info in camps_by_category.items %}
+        <div class="mb-8 border border-gray-200 rounded-lg shadow-sm p-4 bg-gray-50">
+            <div class="flex items-center justify-between mb-3">
+                <h2 class="text-lg font-semibold text-red-500">
+                    {{ category_info.display_name }}
+                </h2>
+                <a href="{% url 'category_camps' category_slug %}" class="text-sm text-red-500 hover:underline">
+                    ดูค่ายทั้งหมดในหมวดนี้ →
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {% for camp in category_info.camps %}
+                    <a href="{% url 'camp_detail' camp.id %}" class="block border border-gray-200 bg-white rounded-md p-3 shadow-sm text-sm hover:shadow-md hover:bg-gray-50 transition-all">
+                        {% if camp.image %}
+                            <img src="{{ camp.image.url }}" alt="{{ camp.title }}" class="w-full h-36 object-cover rounded mb-2">
+                        {% else %}
+                            <img src="https://via.placeholder.com/200" alt="Placeholder" class="w-full h-36 object-cover rounded mb-2">
+                        {% endif %}
+                        <h3 class="text-base font-semibold text-indigo-900 mb-1">{{ camp.title }}</h3>
+                        <p class="text-gray-600 mb-1">{{ camp.description|truncatewords:15 }}</p>
+                        <p class="text-gray-700"><strong>ผู้เข้าร่วม:</strong> {{ camp.participants }}</p>
+                        <p class="text-gray-700"><strong>สถานที่:</strong> {{ camp.location }}</p>
+                        <p class="text-gray-700"><strong>ค่าใช้จ่าย:</strong> {{ camp.fee }}</p>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+
+    <style>
+        @keyframes bounce-in {
+          0% {
+            transform: scale(0.8) translateY(-20px);
+            opacity: 0;
+          }
+          60% {
+            transform: scale(1.05) translateY(10px);
+            opacity: 1;
+          }
+          100% {
+            transform: scale(1) translateY(0);
+          }
+        }
+      
+        .animate-bounce-in {
+          animation: bounce-in 0.8s ease-out forwards;
+        }
+      </style>
+      
+
+    <script>
+        let currentIndex = 0;
+      
+        const carousel = document.getElementById('carousel');
+        const slides = carousel.children;
+        const totalSlides = slides.length;
+        const slidesPerPage = 2;
+      
+        function updateSlide() {
+          const slideWidth = slides[0].offsetWidth + 16; // +16 จาก px-2 (padding)
+          const newTransform = -currentIndex * slideWidth;
+          carousel.style.transform = `translateX(${newTransform}px)`;
+        }
+      
+        function nextSlide() {
+          if (currentIndex < totalSlides - slidesPerPage) {
+            currentIndex++;
+            updateSlide();
+          }
+        }
+      
+        function prevSlide() {
+          if (currentIndex > 0) {
+            currentIndex--;
+            updateSlide();
+          }
+        }
+      
+        window.addEventListener('resize', updateSlide);
+        window.addEventListener('load', updateSlide);
+      </script>
+    
+{% endblock %}

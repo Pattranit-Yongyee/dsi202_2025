@@ -1,0 +1,35 @@
+{% extends 'camps/base.html' %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto py-8 px-4">
+    <h2 class="text-3xl font-bold text-center text-indigo-900 mb-8">{{ camp.title }}</h2>
+
+    <div class="flex flex-col md:flex-row gap-8 items-start bg-white p-6 rounded-xl shadow-md">
+        <!-- รูปค่าย -->
+        <div class="md:w-1/2 w-full">
+            {% if camp.image %}
+                <img src="{{ camp.image.url }}" alt="Camp Image" class="w-full h-auto rounded-lg shadow-sm">
+            {% else %}
+                <img src="https://via.placeholder.com/400" alt="Placeholder" class="w-full h-auto rounded-lg shadow-sm">
+            {% endif %}
+        </div>
+
+        <!-- รายละเอียดค่าย -->
+        <div class="md:w-1/2 w-full space-y-3 text-gray-800 text-base">
+            <p><strong>รายละเอียด:</strong> {{ camp.description }}</p>
+            <p><strong>จำนวนผู้เข้าร่วม:</strong> {{ camp.participants }}</p>
+            <p><strong>สถานที่:</strong> {{ camp.location }}</p>
+            <p><strong>ค่าใช้จ่าย:</strong> {{ camp.fee }}</p>
+            <p><strong>วันที่เริ่มค่าย:</strong> {{ camp.camp_start_date }}</p>
+            <p><strong>วันที่สิ้นสุดค่าย:</strong> {{ camp.camp_end_date }}</p>
+            <p><strong>วันที่ปิดรับสมัคร:</strong> {{ camp.application_deadline }}</p>
+        </div>
+    </div>
+
+    <!-- ปุ่มด้านล่าง -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-center mt-10">
+        <a href="https://forms.google.com" class="bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-md text-lg text-center w-full sm:w-64 transition">ลงทะเบียนผ่าน Google Forms</a>
+        <a href="{% url 'home' %}" class="bg-indigo-800 hover:bg-indigo-900 text-white py-3 px-6 rounded-md text-lg text-center w-full sm:w-64 transition">กลับสู่หน้าหลัก</a>
+    </div>
+</div>
+{% endblock %}

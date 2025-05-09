@@ -1,0 +1,126 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PeddleCamp</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex flex-col min-h-screen">
+
+  <header>
+    <!-- Mobile Hamburger Navbar -->
+    <div class="flex md:hidden bg-white bg-opacity-90 items-center justify-between p-4">
+      <!-- Hamburger button -->
+      <button class="p-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+      <!-- Logo (Mobile) -->
+      <a href="{% url 'home' %}">
+        <img src="{% static 'images/logo.png' %}" alt="Logo" class="h-20" />
+      </a>
+    </div>
+
+    <!-- White Bar: Logo and Buttons (Desktop only) -->
+    <div class="hidden md:flex bg-white shadow">
+      <div class="container mx-auto flex justify-between items-center p-4">
+        <!-- Logo (Desktop) -->
+        <a href="{% url 'home' %}">
+          <img src="{% static 'images/logo.png' %}" alt="Logo" class="h-20" />
+        </a>
+        <!-- ปุ่มโปรโมท + เข้าสู่ระบบ -->
+        <div class="flex gap-4">
+          <a href="{% url 'add_camp' %}" class="px-5 py-2 bg-[#CD4236] text-white font-semibold rounded-full hover:bg-red-700 transition duration-200">
+            โปรโมทกิจกรรม
+          </a>
+          {% if user.is_authenticated %}
+            <a href="{% url 'profile' %}" class="px-5 py-2 bg-[#003049] text-white font-semibold rounded-full hover:bg-[#002437] transition duration-200">โปรไฟล์</a>
+            <a href="{% url 'account_logout' %}" class="px-5 py-2 bg-[#003049] text-white font-semibold rounded-full hover:bg-[#002437] transition duration-200">ออกจากระบบ</a>
+          {% else %}
+            <a href="{% url 'account_login' %}" class="px-5 py-2 bg-[#003049] text-white font-semibold rounded-full hover:bg-[#002437] transition duration-200">
+              เข้าสู่ระบบ 
+            </a>
+            <a href="{% url 'account_signup' %}" class="px-5 py-2 bg-[#CD4236] text-white font-semibold rounded-full hover:bg-red-700 transition duration-200">
+              สมัครสมาชิก 
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Navigation -->
+    <div class="bg-[#003049] text-white">
+      <div class="w-full max-w-[720px] mx-auto p-4">
+        <div class="grid grid-cols-6 gap-6 w-full">
+          <!-- ค่ายสายสุขภาพ -->
+          <a href="{% url 'category_camps' 'health' %}">
+            <div class="flex flex-col items-center hover:opacity-80 transition">
+              <img src="{% static 'images/Health.png' %}" alt="สุขภาพ" class="h-8 mb-1" />
+              <span class="text-xs">สายสุขภาพ</span>
+            </div>
+          </a>
+          
+          <!-- ค่ายสายวิศวกรรม -->
+          <a href="{% url 'category_camps' 'engineering' %}">
+            <div class="flex flex-col items-center hover:opacity-80 transition">
+              <img src="{% static 'images/Engineer.png' %}" alt="วิศวกรรม" class="h-8 mb-1" />
+              <span class="text-xs">สายวิศวกรรม</span>
+            </div>
+          </a>
+          
+          <!-- ค่ายสายภาษา -->
+          <a href="{% url 'category_camps' 'language' %}">
+            <div class="flex flex-col items-center hover:opacity-80 transition">
+              <img src="{% static 'images/Language.png' %}" alt="ภาษา" class="h-8 mb-1" />
+              <span class="text-xs">สายภาษา</span>
+            </div>
+          </a>
+          
+          <!-- ค่ายสายสถาปัตย์ -->
+          <a href="{% url 'category_camps' 'architecture' %}">
+            <div class="flex flex-col items-center hover:opacity-80 transition">
+              <img src="{% static 'images/Architecture.png' %}" alt="สถาปัตย์" class="h-8 mb-1" />
+              <span class="text-xs">สายสถาปัตย์</span>
+            </div>
+          </a>
+          
+          <!-- ค่ายอาสา -->
+          <a href="{% url 'category_camps' 'volunteer' %}">
+            <div class="flex flex-col items-center hover:opacity-80 transition">
+              <img src="{% static 'images/Volunteer.png' %}" alt="อาสา" class="h-8 mb-1" />
+              <span class="text-xs">ค่ายจิตอาสา</span>
+            </div>
+          </a>
+          
+          <!-- ค่ายสายดิจิทัล/IT -->
+          <a href="{% url 'category_camps' 'digital-it' %}">
+            <div class="flex flex-col items-center hover:opacity-80 transition">
+              <img src="{% static 'images/IT.png' %}" alt="ดิจิทัล/IT" class="h-8 mb-1" />
+              <span class="text-xs text-center">สายดิจิทัล ไอที</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="flex-grow px-4 md:px-[70px] py-8">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#003049] text-white py-4">
+    <div class="container mx-auto text-center">
+      <p class="text-sm">
+        ติดต่อเรา: Pedddlecamps@example.com • โทร. 02-123-4567
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
