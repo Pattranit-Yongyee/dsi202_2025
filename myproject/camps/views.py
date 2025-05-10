@@ -1,8 +1,10 @@
 # Create your views here.
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Camp, UserProfile
-from .forms import CampForm, UserProfileForm
+from .models import Camp, StudentProfile
+from .forms import CampForm, StudentProfileForm
+from django.contrib import messages
+
 
 def home(request):
     categories = {
@@ -55,24 +57,43 @@ def add_camp(request):
 
     return render(request, 'camps/add_camp.html', {'form': form})
 
+
 @login_required
-def profile(request):
+def complete_profile(request):
+    try:
+        profile = request.user.student_profile
+    except StudentProfile.DoesNotExist:
+        profile = StudentProfile(user=request.user)
+        profile.save()
+
     if request.method == 'POST':
-        form = UserProfileForm(request.POST)
+        form = StudentProfileForm(request.POST, instance=profile, user=request.user)
         if form.is_valid():
-            profile, created = UserProfile.objects.get_or_create(user=request.user)
-            profile.grade_level = form.cleaned_data['grade_level']
-            profile.other_grade = form.cleaned_data['other_grade']
-            profile.hobbies = form.cleaned_data['hobbies']
-            profile.interests = form.cleaned_data['interests']
-            profile.save()
-            return redirect('home')
+            form.save()
+            messages.success(request, 'บันทึกข้อมูลโปรไฟล์เรียบร้อยแล้ว')
+            return redirect('profile')
     else:
-        profile, created = UserProfile.objects.get_or_create(user=request.user)
-        form = UserProfileForm(initial={
-            'grade_level': profile.grade_level,
-            'other_grade': profile.other_grade,
-            'hobbies': profile.hobbies,
-            'interests': profile.interests,
-        })
-    return render(request, 'camps/profile.html', {'form': form, 'user': request.user})
+        form = StudentProfileForm(instance=profile, user=request.user)
+
+    return render(request, 'camps/complete_profile.html', {'form': form})
+
+login_required
+def profile(request):
+    try:
+        profile = request.user.student_profile
+    except StudentProfile.DoesNotExist:
+        return redirect('complete_profile')
+
+    if request.method == 'POST':
+        form = StudentProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'อัปเดตข้อมูลโปรไฟล์เรียบร้อยแล้ว')
+    else:
+        form = StudentProfileForm(instance=profile)
+
+    return render(request, 'camps/profile.html', {
+        'form': form,
+        'email': request.user.email,
+        'profile': profile,
+    })

@@ -35,15 +35,21 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'camps',
+    'django.contrib.messages', 
+    'camps.apps.CampsConfig',
     'widget_tweaks',
-    "django.contrib.sites",
     "allauth",
-    "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
+    'allauth.account',
+    "django.contrib.sites",
+    'django.contrib.staticfiles',
+]
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 MIDDLEWARE = [
@@ -62,7 +68,7 @@ ROOT_URLCONF = 'myproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -133,3 +139,16 @@ MEDIA_ROOT = BASE_DIR / "media"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SITE_ID = 2
+LOGIN_REDIRECT_URL = 'home'  # หน้าแรกหลังล็อกอิน
+ACCOUNT_LOGOUT_REDIRECT_URL = 'home'  # หน้าแรกหลังล็อกเอาท์  
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+LOGIN_REDIRECT_URL = 'home'
+ACCOUNT_SIGNUP_REDIRECT_URL = 'complete_profile' # Redirect ไปหน้า profile หลัง sign up
+ACCOUNT_LOGIN_ON_SIGNUP = True
+ACCOUNT_USERNAME_REQUIRED = False
+
+

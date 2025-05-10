@@ -1,6 +1,6 @@
 from django import forms
 from .models import Camp
-from .models import UserProfile
+from .models import StudentProfile
 
 class CampForm(forms.ModelForm):
     class Meta:
@@ -27,18 +27,28 @@ class CampForm(forms.ModelForm):
         }
 
 
+class StudentProfileForm(forms.ModelForm):
+    email = forms.EmailField(disabled=True, label='อีเมล')  # แสดงอีเมลแต่แก้ไขไม่ได้
 
-class UserProfileForm(forms.ModelForm):
     class Meta:
-        model = UserProfile
-        fields = ['grade_level', 'other_grade', 'hobbies', 'interests']
+        model = StudentProfile
+        fields = ['education_level', 'hobbies', 'interests']
+        widgets = {
+            'education_level': forms.Select(),
+            'hobbies': forms.Textarea(attrs={'rows': 4, 'placeholder': 'เช่น อ่านหนังสือ, เล่นกีฬา'}),
+            'interests': forms.Textarea(attrs={'rows': 4, 'placeholder': 'เช่น วิทยาศาสตร์, ศิลปะ'}),
+        }
 
     def __init__(self, *args, **kwargs):
-        super(UserProfileForm, self).__init__(*args, **kwargs)
-        self.fields['grade_level'] = forms.ChoiceField(
-            choices=[('', 'เลือกระดับชั้น')] + UserProfile._meta.get_field('grade_level').choices,
-            widget=forms.Select(attrs={'class': 'w-full p-2 border rounded'})
-        )
-        self.fields['other_grade'].widget.attrs.update({'class': 'w-full p-2 border rounded', 'placeholder': 'ระบุระดับชั้นอื่นๆ'})
-        self.fields['hobbies'].widget.attrs.update({'class': 'w-full p-2 border rounded', 'placeholder': 'งานอดิเรก (คั่นด้วยเครื่องหมาย ,)'})
-        self.fields['interests'].widget.attrs.update({'class': 'w-full p-2 border rounded', 'placeholder': 'ความสนใจ (คั่นด้วยเครื่องหมาย ,)'})
+        # ดึง user ถ้ามีการส่งเข้ามา
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
+        # ปรับ label ฟิลด์
+        self.fields['education_level'].label = 'ระดับชั้น'
+        self.fields['hobbies'].label = 'งานอดิเรก'
+        self.fields['interests'].label = 'ความสนใจ'
+
+        # เพิ่มค่าของ email field จาก user
+        if self.user:
+            self.fields['email'].initial = self.user.email
