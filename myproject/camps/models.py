@@ -1,11 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-MODE_CHOICES = [
-    ('online', 'ออนไลน์'),
-    ('onsite', 'ออนไซต์'),
-]
-
 class Camp(models.Model):
     CATEGORY_CHOICES = [
         ('health', 'สายสุขภาพ'),
@@ -16,10 +11,16 @@ class Camp(models.Model):
         ('digital-it', 'ดิจิตอล ไอที')
     ]
     
+    MODE_CHOICES = [
+    ('online', 'ออนไลน์'),
+    ('onsite', 'ออนไซต์'),
+    ]
+    
     title = models.CharField(max_length=200)
     description = models.TextField()
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
     participants = models.CharField(max_length=50)
+    mode = models.CharField(max_length=10, choices=MODE_CHOICES,)  
     location = models.CharField(max_length=200)
     fee = models.CharField(max_length=50)
     image = models.ImageField(upload_to='camp_images/', blank=True, null=True)
@@ -28,7 +29,6 @@ class Camp(models.Model):
     camp_end_date = models.DateField(null=True, blank=True)
     organizer = models.CharField(max_length=200, null=True, blank=True)
     contact_info = models.TextField(null=True, blank=True)
-    mode = models.CharField(max_length=10, choices=MODE_CHOICES)
     approved = models.BooleanField(default=False)
 
     def __str__(self):
