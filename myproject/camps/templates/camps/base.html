@@ -7,44 +7,82 @@
   <title>PeddleCamp</title>
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom styles for sliding menu */
+    #mobile-menu {
+      transform: translateX(-100%);
+      transition: transform 0.3s ease-in-out;
+    }
+    #mobile-menu.open {
+      transform: translateX(0);
+    }
+  </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
   <header>
     <!-- Mobile Hamburger Navbar -->
-    <div class="flex md:hidden bg-white bg-opacity-90 items-center justify-between p-4">
+    <div class="flex md:hidden bg-white bg-opacity-90 items-center justify-center p-4 mobile-header">
       <!-- Hamburger button -->
-      <button class="p-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <button id="hamburger-btn" class="p-2 absolute left-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-800 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>
-      <!-- Logo (Mobile) -->
+      <!-- Logo (Mobile, centered) -->
       <a href="{% url 'home' %}">
-        <img src="{% static 'images/logo.png' %}" alt="Logo" class="h-20" />
+        <img src="{% static 'images/logo.png' %}" alt="Logo" class="h-16" />
       </a>
+    </div>
+
+    <!-- Mobile Menu (Slides in from left) -->
+    <div id="mobile-menu" class="md:hidden fixed top-0 left-0 h-full w-64 bg-[#003049] shadow flex flex-col p-4 z-50">
+      <!-- Close button -->
+      <button id="close-btn" class="self-end p-2 mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="white">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <a href="{% url 'add_camp' %}" class="w-full text-center px-5 py-2 mb-2 bg-[#FFFFFF] text-black font-semibold rounded-full hover:bg-[#002437] transition duration-200 menu-button">
+        โปรโมทกิจกรรม
+      </a>
+      {% if user.is_authenticated %}
+        <a href="{% url 'profile' %}" class="w-full text-center px-5 py-2 mb-2 bg-[#FFFFFF] text-black font-semibold rounded-full hover:bg-red-700 transition duration-200 menu-button">
+          โปรไฟล์
+        </a>
+        <a href="{% url 'account_logout' %}" class="w-full text-center px-5 py-2 mb-2 bg-[#FFFFFF] text-black font-semibold rounded-full hover:bg-red-700 transition duration-200 menu-button">
+          ออกจากระบบ
+        </a>
+      {% else %}
+        <a href="{% url 'account_login' %}" class="w-full text-center px-5 py-2 mb-2 bg-[#FFFFFF] text-black font-semibold rounded-full hover:bg-red-700 transition duration-200 menu-button">
+          เข้าสู่ระบบ
+        </a>
+        <a href="{% url 'account_signup' %}" class="w-full text-center px-5 py-2 mb-2 bg-[#FFFFFF] text-black font-semibold rounded-full hover:bg-[#002437] transition duration-200 menu-button">
+          สมัครสมาชิก
+        </a>
+      {% endif %}
     </div>
 
     <!-- White Bar: Logo and Buttons (Desktop only) -->
     <div class="hidden md:flex bg-white shadow">
       <div class="container mx-auto flex justify-between items-center p-4">
-        <!-- Logo (Desktop) -->
+        <!-- Logo (Desktop, centered within its space) -->
         <a href="{% url 'home' %}">
-          <img src="{% static 'images/logo.png' %}" alt="Logo" class="h-20" />
+          <img src="{% static 'images/logo.png' %}" alt="Logo" class="h-16" />
         </a>
         <!-- ปุ่มโปรโมท + เข้าสู่ระบบ -->
-        <div class="flex gap-4">
-          <a href="{% url 'add_camp' %}" class="px-5 py-2 bg-[#CD4236] text-white font-semibold rounded-full hover:bg-red-700 transition duration-200">
+        <div class="flex gap-2 md:gap-3 lg:gap-4">
+          <a href="{% url 'add_camp' %}" class="px-3 py-1.5 md:px-4 md:py-2 lg:px-5 lg:py-2 bg-[#CD4236] text-white font-semibold rounded-full hover:bg-red-700 transition duration-200 text-sm md:text-base">
             โปรโมทกิจกรรม
           </a>
           {% if user.is_authenticated %}
-            <a href="{% url 'profile' %}" class="px-5 py-2 bg-[#003049] text-white font-semibold rounded-full hover:bg-[#002437] transition duration-200">โปรไฟล์</a>
-            <a href="{% url 'account_logout' %}" class="px-5 py-2 bg-[#003049] text-white font-semibold rounded-full hover:bg-[#002437] transition duration-200">ออกจากระบบ</a>
+            <a href="{% url 'profile' %}" class="px-3 py-1.5 md:px-4 md:py-2 lg:px-5 lg:py-2 bg-[#003049] text-white font-semibold rounded-full hover:bg-[#002437] transition duration-200 text-sm md:text-base">โปรไฟล์</a>
+            <a href="{% url 'account_logout' %}" class="px-3 py-1.5 md:px-4 md:py-2 lg:px-5 lg:py-2 bg-[#003049] text-white font-semibold rounded-full hover:bg-[#002437] transition duration-200 text-sm md:text-base">ออกจากระบบ</a>
           {% else %}
-            <a href="{% url 'account_login' %}" class="px-5 py-2 bg-[#003049] text-white font-semibold rounded-full hover:bg-[#002437] transition duration-200">
+            <a href="{% url 'account_login' %}" class="px-3 py-1.5 md:px-4 md:py-2 lg:px-5 lg:py-2 bg-[#003049] text-white font-semibold rounded-full hover:bg-[#002437] transition duration-200 text-sm md:text-base">
               เข้าสู่ระบบ 
             </a>
-            <a href="{% url 'account_signup' %}" class="px-5 py-2 bg-[#CD4236] text-white font-semibold rounded-full hover:bg-red-700 transition duration-200">
+            <a href="{% url 'account_signup' %}" class="px-3 py-1.5 md:px-4 md:py-2 lg:px-5 lg:py-2 bg-[#CD4236] text-white font-semibold rounded-full hover:bg-red-700 transition duration-200 text-sm md:text-base">
               สมัครสมาชิก 
             </a>
           {% endif %}
@@ -83,7 +121,7 @@
           <!-- ค่ายสายสถาปัตย์ -->
           <a href="{% url 'category_camps' 'architecture' %}">
             <div class="flex flex-col items-center hover:opacity-80 transition">
-              <img src="{% static 'images/4.png' %}" alt="สถาปัตย์" class="h-8 mb-1" />
+              <img src="{% static 'images/4.png' %}" alt="ประตย์" class="h-8 mb-1" />
               <span class="text-xs">สายสถาปัตย์</span>
             </div>
           </a>
@@ -121,6 +159,21 @@
       </p>
     </div>
   </footer>
+
+  <!-- JavaScript for Hamburger Menu Toggle -->
+  <script>
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const closeBtn = document.getElementById('close-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    hamburgerBtn.addEventListener('click', () => {
+      mobileMenu.classList.add('open');
+    });
+
+    closeBtn.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+    });
+  </script>
 
 </body>
 </html>

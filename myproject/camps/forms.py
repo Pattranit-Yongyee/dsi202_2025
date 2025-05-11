@@ -14,10 +14,10 @@ class CampForm(forms.ModelForm):
             'title': forms.TextInput(attrs={'class': input_class}),
             'description': forms.Textarea(attrs={'class': input_class + ' h-28'}),
             'category': forms.Select(attrs={'class': input_class}),
-            'participants': forms.NumberInput(attrs={'class': input_class}),
+            'participants': forms.TextInput(attrs={'class': input_class, 'placeholder': 'เช่น 50 คน'}),
             'mode': forms.Select(attrs={'class': input_class}),
             'location': forms.TextInput(attrs={'class': input_class}),
-            'fee': forms.NumberInput(attrs={'class': input_class}),
+            'fee': forms.TextInput(attrs={'class': input_class, 'placeholder': 'เช่น 500 บาท'}),
             'image': forms.ClearableFileInput(attrs={'class': input_class}),
             'application_deadline': forms.DateInput(attrs={'type': 'date', 'class': input_class}),
             'camp_start_date': forms.DateInput(attrs={'type': 'date', 'class': input_class}),
@@ -26,10 +26,7 @@ class CampForm(forms.ModelForm):
             'contact_info': forms.TextInput(attrs={'class': input_class}),
         }
 
-
 class StudentProfileForm(forms.ModelForm):
-    email = forms.EmailField(disabled=True, label='อีเมล')  # แสดงอีเมลแต่แก้ไขไม่ได้
-
     class Meta:
         model = StudentProfile
         fields = ['education_level', 'hobbies', 'interests']
@@ -48,7 +45,3 @@ class StudentProfileForm(forms.ModelForm):
         self.fields['education_level'].label = 'ระดับชั้น'
         self.fields['hobbies'].label = 'งานอดิเรก'
         self.fields['interests'].label = 'ความสนใจ'
-
-        # เพิ่มค่าของ email field จาก user
-        if self.user:
-            self.fields['email'].initial = self.user.email

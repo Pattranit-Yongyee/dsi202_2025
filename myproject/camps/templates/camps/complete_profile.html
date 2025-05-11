@@ -1,9 +1,12 @@
 {% extends "camps/base.html" %}
 {% load widget_tweaks %}
 {% block content %}
-<div class="max-w-md mx-auto py-12 px-4 sm:px-6 lg:px-8">
+<div class="max-w-lg mx-auto py-12 px-4 sm:px-6 lg:px-8">
     <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200">
         <h2 class="text-3xl font-bold text-center text-indigo-900 mb-8">กรอกข้อมูลโปรไฟล์</h2>
+        <div class="mb-6">
+            <p><strong>อีเมล:</strong> {{ user.email }}</p>
+        </div>
         {% if messages %}
             <div class="mb-4">
                 {% for message in messages %}

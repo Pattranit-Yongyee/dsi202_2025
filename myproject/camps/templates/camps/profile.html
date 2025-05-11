@@ -1,7 +1,7 @@
 {% extends "camps/base.html" %}
 {% load widget_tweaks %}
 {% block content %}
-<div class="max-w-md mx-auto py-12 px-4 sm:px-6 lg:px-8">
+<div class="max-w-lg mx-auto py-12 px-4 sm:px-6 lg:px-8">
     <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200">
         <h2 class="text-3xl font-bold text-center text-indigo-900 mb-8">โปรไฟล์ของคุณ</h2>
         {% if messages %}
@@ -12,13 +12,29 @@
             </div>
         {% endif %}
         <div class="mb-6">
-            <h3 class="text-lg font-medium text-gray-700">ข้อมูลปัจจุบัน</h3>
+            <h3 class="text-lg font-medium text-gray-700 mb-4">ข้อมูลโปรไฟล์</h3>
+            <p><strong>อีเมล:</strong> {{ user.email }}</p>
             <p><strong>ระดับชั้น:</strong> {{ profile.get_education_level_display|default:"ยังไม่ได้ระบุ" }}</p>
             <p><strong>งานอดิเรก:</strong> {{ profile.hobbies|default:"ยังไม่ได้ระบุ" }}</p>
             <p><strong>ความสนใจ:</strong> {{ profile.interests|default:"ยังไม่ได้ระบุ" }}</p>
         </div>
-        <h3 class="text-lg font-medium text-gray-700 mb-4">แก้ไขข้อมูล</h3>
-        <form method="POST" class="space-y-6">
+        <div class="text-center">
+            <button id="edit-profile-btn" class="bg-indigo-600 text-white py-3 px-6 rounded-md hover:bg-indigo-700 transition-colors duration-300 text-lg">
+                แก้ไขข้อมูล
+            </button>
+        </div>
+        <p class="text-center text-sm text-gray-600 mt-4">
+            กลับไปหน้า <a href="{% url 'home' %}" class="text-indigo-600 hover:text-indigo-800">หน้าหลัก</a>
+        </p>
+    </div>
+</div>
+
+<!-- Modal for Editing Profile -->
+<div id="edit-profile-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 hidden opacity-0 transition-opacity duration-300">
+    <div id="modal-content" class="bg-white p-8 rounded-xl shadow-lg max-w-md w-full transform scale-95 transition-transform duration-300">
+        <h3 class="text-2xl font-bold text-indigo-900 mb-4">แก้ไขข้อมูลโปรไฟล์</h3>
+        <p class="mb-4"><strong>อีเมล:</strong> {{ user.email }}</p>
+        <form id="edit-profile-form" method="POST" action="{% url 'profile' %}" class="space-y-6">
             {% csrf_token %}
             {% for field in form %}
                 <div>
@@ -29,13 +45,78 @@
                     {% endfor %}
                 </div>
             {% endfor %}
-            <div>
-                <button type="submit" class="w-full bg-green-600 text-white py-3 px-4 rounded-md hover:bg-green-700 transition-colors duration-300 text-lg">บันทึกการเปลี่ยนแปลง</button>
+            <div class="flex justify-end gap-4">
+                <button type="button" id="cancel-btn" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition-colors duration-300">
+                    ยกเลิก
+                </button>
+                <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors duration-300">
+                    บันทึก
+                </button>
             </div>
         </form>
-        <p class="text-center text-sm text-gray-600 mt-4">
-            กลับไปหน้า <a href="{% url 'home' %}" class="text-indigo-600 hover:text-indigo-800">หน้าหลัก</a>
-        </p>
     </div>
 </div>
+
+<!-- JavaScript for Modal and Form Submission -->
+<script>
+    const editProfileBtn = document.getElementById('edit-profile-btn');
+    const editProfileModal = document.getElementById('edit-profile-modal');
+    const modalContent = document.getElementById('modal-content');
+    const cancelBtn = document.getElementById('cancel-btn');
+    const editProfileForm = document.getElementById('edit-profile-form');
+
+    // Open modal with animation
+    editProfileBtn.addEventListener('click', () => {
+        editProfileModal.classList.remove('hidden');
+        setTimeout(() => {
+            editProfileModal.classList.remove('opacity-0');
+            modalContent.classList.remove('scale-95');
+            modalContent.classList.add('scale-100');
+        }, 10); // Small delay to ensure transition applies
+    });
+
+    // Close modal with animation
+    cancelBtn.addEventListener('click', () => {
+        editProfileModal.classList.add('opacity-0');
+        modalContent.classList.remove('scale-100');
+        modalContent.classList.add('scale-95');
+        setTimeout(() => {
+            editProfileModal.classList.add('hidden');
+        }, 300); // Match transition duration
+    });
+
+    // Handle form submission with AJAX
+    editProfileForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(editProfileForm);
+
+        try {
+            const response = await fetch(editProfileForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+                },
+            });
+
+            if (response.ok) {
+                // Close modal with animation and reload page
+                editProfileModal.classList.add('opacity-0');
+                modalContent.classList.remove('scale-100');
+                modalContent.classList.add('scale-95');
+                setTimeout(() => {
+                    editProfileModal.classList.add('hidden');
+                    window.location.reload();
+                }, 300); // Match transition duration
+            } else {
+                // Handle errors (e.g., display form errors)
+                const data = await response.json();
+                console.error('Form submission error:', data);
+                // Optionally, display errors in the modal
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+        }
+    });
+</script>
 {% endblock %}
