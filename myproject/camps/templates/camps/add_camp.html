@@ -2,9 +2,9 @@
 
 {% block content %}
 <div class="max-w-2xl mx-auto py-10">
-    <h2 class="text-3xl font-bold text-indigo-900 mb-6 text-center">เพิ่มค่ายใหม่</h2>
+    <h2 class="text-3xl font-bold text-indigo-900 mb-6 text-center">กรอกข้อมูลกิจกรรม</h2>
     
-    <form method="POST" enctype="multipart/form-data" class="bg-white shadow-md rounded-lg p-6 space-y-6">
+    <form id="campForm" method="POST" enctype="multipart/form-data" class="bg-white shadow-md rounded-lg p-6 space-y-6">
         {% csrf_token %}
         
         {% for field in form %}
@@ -24,32 +24,108 @@
             </div>
         {% endfor %}
 
+        <!-- Checkbox for agreeing to rules -->
+        <div class="flex items-center space-x-2">
+            <input type="checkbox" id="agreeRules" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+            <label for="agreeRules" class="text-sm text-gray-700">
+                ฉันเข้าใจและยอมรับ
+                <button type="button" id="openRules" class="text-indigo-600 hover:text-indigo-800 underline">กฎการโปรโมทกิจกรรม/ค่าย</button>
+            </label>
+        </div>
+
         <div class="text-center">
-            <button type="submit" class="bg-red-500 text-white py-2 px-6 rounded-md hover:bg-red-600 transition-colors">
+            <button type="button" id="submitCamp" disabled class="bg-red-500 text-white py-2 px-6 rounded-md hover:bg-red-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed">
                 ยืนยันการเพิ่มค่าย
             </button>
         </div>
     </form>
 </div>
 
-<!-- JavaScript for Image Preview -->
+<!-- Rules Popup -->
+<div id="rulesPopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white rounded-lg p-6 max-w-lg w-full">
+        <h3 class="text-xl font-bold text-indigo-900 mb-4">กฎการโปรโมทกิจกรรม/ค่าย</h3>
+        <p class="text-gray-700 mb-4">
+            1. เนื้อหาค่ายต้องเหมาะสมและไม่ขัดต่อกฎหมาย<br>
+            2. รูปภาพต้องชัดเจนและเกี่ยวข้องกับค่าย<br>
+            3. ข้อมูลต้องครบถ้วนและถูกต้อง<br>
+            4. ห้ามใช้ถ้อยคำที่ไม่เหมาะสมหรือก่อให้เกิดความขัดแย้ง
+        </p>
+        <button id="closeRules" class="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700">ปิด</button>
+    </div>
+</div>
+
+<!-- Confirmation Popup -->
+<div id="confirmPopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white rounded-lg p-6 max-w-md w-full">
+        <h3 class="text-xl font-bold text-indigo-900 mb-4">ยืนยันการเพิ่มกิจกรรม/ค่าย</h3>
+        <p class="text-gray-700 mb-4">คุณแน่ใจหรือไม่ว่าต้องการส่งข้อมูลกิจกรรม/ค่ายนี้?</p>
+        <div class="flex justify-end space-x-4">
+            <button id="cancelConfirm" class="bg-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-400">ยกเลิก</button>
+            <button id="confirmSubmit" class="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">ยืนยัน</button>
+        </div>
+    </div>
+</div>
+
 <script>
-    document.getElementById('id_image').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        const preview = document.getElementById('image-preview');
-        
-        if (file) {
-            // Create a URL for the selected file and display it
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                preview.src = e.target.result;
-                preview.classList.remove('hidden');
-            };
-            reader.readAsDataURL(file);
-        } else {
-            // Hide preview if no file is selected
-            preview.src = '';
-            preview.classList.add('hidden');
+    document.addEventListener('DOMContentLoaded', function() {
+        // Image Preview
+        const imageInput = document.getElementById('id_image');
+        const imagePreview = document.getElementById('image-preview');
+        if (imageInput && imagePreview) {
+            imageInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        imagePreview.src = e.target.result;
+                        imagePreview.classList.remove('hidden');
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    imagePreview.src = '';
+                    imagePreview.classList.add('hidden');
+                }
+            });
+        }
+
+        // Checkbox to enable submit button
+        const agreeCheckbox = document.getElementById('agreeRules');
+        const submitButton = document.getElementById('submitCamp');
+        if (agreeCheckbox && submitButton) {
+            agreeCheckbox.addEventListener('change', function() {
+                submitButton.disabled = !this.checked;
+            });
+        }
+
+        // Rules Popup
+        const rulesPopup = document.getElementById('rulesPopup');
+        const openRulesButton = document.getElementById('openRules');
+        const closeRulesButton = document.getElementById('closeRules');
+        if (openRulesButton && rulesPopup && closeRulesButton) {
+            openRulesButton.addEventListener('click', function() {
+                rulesPopup.classList.remove('hidden');
+            });
+            closeRulesButton.addEventListener('click', function() {
+                rulesPopup.classList.add('hidden');
+            });
+        }
+
+        // Confirmation Popup
+        const confirmPopup = document.getElementById('confirmPopup');
+        const campForm = document.getElementById('campForm');
+        const cancelConfirmButton = document.getElementById('cancelConfirm');
+        const confirmSubmitButton = document.getElementById('confirmSubmit');
+        if (submitButton && confirmPopup && campForm && cancelConfirmButton && confirmSubmitButton) {
+            submitButton.addEventListener('click', function() {
+                confirmPopup.classList.remove('hidden');
+            });
+            cancelConfirmButton.addEventListener('click', function() {
+                confirmPopup.classList.add('hidden');
+            });
+            confirmSubmitButton.addEventListener('click', function() {
+                campForm.submit();
+            });
         }
     });
 </script>

@@ -7,16 +7,18 @@
   <title>PeddleCamp</title>
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Cambria&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Custom styles for sliding menu */
-    #mobile-menu {
-      transform: translateX(-100%);
-      transition: transform 0.3s ease-in-out;
+    /* Font Awesome integration (ensure it's included in base.html or here) */
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #d8e3ff 0%, #e0e7ff 100%);
     }
-    #mobile-menu.open {
-      transform: translateX(0);
-    }
-    /* Animated background circles */
+
+    /* Animated Background Circles */
     .background-circles {
       position: fixed;
       top: 0;
@@ -29,79 +31,122 @@
     .circle {
       position: absolute;
       border-radius: 50%;
-      opacity: 0.4;
-      filter: blur(20px);
+      opacity: 0.3;
+      filter: blur(30px);
       animation: float infinite ease-in-out;
     }
     .circle-1 {
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, rgba(99, 102, 241, 0.8), transparent);
-      top: 10%;
-      left: 20%;
-      animation-duration: 15s;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.6), transparent);
+      top: 15%;
+      left: 25%;
+      animation-duration: 14s;
       animation-delay: 0s;
-      animation-direction: alternate;
     }
     .circle-2 {
       width: 200px;
       height: 200px;
-      background: radial-gradient(circle, rgba(236, 72, 153, 0.8), transparent);
-      top: 30%;
-      left: 60%;
-      animation-duration: 20s;
+      background: radial-gradient(circle, rgba(236, 72, 153, 0.6), transparent);
+      top: 35%;
+      left: 65%;
+      animation-duration: 18s;
       animation-delay: 2s;
-      animation-direction: alternate;
     }
     .circle-3 {
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, rgba(74, 222, 128, 0.8), transparent);
-      top: 50%;
-      left: 10%;
-      animation-duration: 18s;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(74, 222, 128, 0.6), transparent);
+      top: 55%;
+      left: 15%;
+      animation-duration: 16s;
       animation-delay: 4s;
-      animation-direction: alternate;
     }
     .circle-4 {
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, rgba(255, 171, 0, 0.8), transparent);
-      top: 70%;
-      left: 80%;
-      animation-duration: 16s;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(255, 171, 0, 0.6), transparent);
+      top: 75%;
+      left: 85%;
+      animation-duration: 15s;
       animation-delay: 1s;
-      animation-direction: alternate;
     }
     .circle-5 {
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, rgba(168, 85, 247, 0.8), transparent);
-      top: 20%;
-      left: 40%;
-      animation-duration: 22s;
+      width: 230px;
+      height: 230px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.6), transparent);
+      top: 25%;
+      left: 45%;
+      animation-duration: 20s;
       animation-delay: 3s;
-      animation-direction: alternate;
     }
     @keyframes float {
-      0% {
-        transform: translate(0, 0) scale(1);
-      }
-      20% {
-        transform: translate(80px, -60px) scale(1.1);
-      }
-      40% {
-        transform: translate(120px, 80px) scale(0.9);
-      }
-      60% {
-        transform: translate(-80px, 160px) scale(1.05);
-      }
-      80% {
-        transform: translate(-120px, -80px) scale(0.95);
-      }
-      100% {
-        transform: translate(0, 0) scale(1);
-      }
+      0% { transform: translate(0, 0) scale(1); }
+      20% { transform: translate(50px, -40px) scale(1.05); }
+      40% { transform: translate(80px, 60px) scale(0.95); }
+      60% { transform: translate(-50px, 100px) scale(1.1); }
+      80% { transform: translate(-80px, -60px) scale(0.9); }
+      100% { transform: translate(0, 0) scale(1); }
+    }
+
+    /* Mobile Menu */
+    #mobile-menu {
+      transform: translateX(-100%);
+      transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+      opacity: 0;
+      background: linear-gradient(135deg, #003049 0%, #002437 100%);
+      box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
+    }
+    #mobile-menu.open {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    .menu-button {
+      transition: all 0.3s ease;
+      transform: scale(1);
+    }
+    .menu-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Header Styling */
+    .mobile-header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .hamburger-icon {
+      transition: transform 0.3s ease;
+    }
+    .hamburger-icon:hover {
+      transform: scale(1.2);
+    }
+
+    /* Category Navigation */
+    .category-link {
+      transition: all 0.3s ease;
+    }
+    .category-link:hover {
+      transform: translateY(-3px);
+      opacity: 1 !important;
+    }
+    .category-link img {
+      transition: transform 0.3s ease;
+    }
+    .category-link:hover img {
+      transform: rotate(10deg) scale(1.1);
+    }
+
+    /* Footer */
+    footer {
+      background: linear-gradient(135deg, #003049 0%, #002437 100%);
+    }
+    footer a {
+      transition: color 0.3s ease;
+    }
+    footer a:hover {
+      color: #ff6b6b;
     }
   </style>
 </head>
@@ -118,67 +163,66 @@
   <header>
     <!-- Mobile Hamburger Navbar -->
     <div class="flex md:hidden bg-white bg-opacity-90 items-center justify-center p-4 mobile-header">
-      <!-- Hamburger button -->
-      <button id="hamburger-btn" class="p-2 absolute left-4">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-800 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <button id="hamburger-btn" class="p-2 absolute left-4 hamburger-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>
-      <!-- Logo (Mobile, centered) -->
       <a href="{% url 'home' %}">
-        <img src="{% static 'images/logo.png' %}" alt="Logo" class="h-16" />
+        <img src="{% static 'images/logo.png' %}" alt="Logo" class="h-16 transition-transform hover:scale-105" />
       </a>
     </div>
 
-    <!-- Mobile Menu (Slides in from left) -->
-    <div id="mobile-menu" class="md:hidden fixed top-0 left-0 h-full w-64 bg-[#003049] shadow flex flex-col p-4 z-50">
-      <!-- Close button -->
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden fixed top-0 left-0 h-full w-64 shadow flex flex-col p-4 z-50">
       <button id="close-btn" class="self-end p-2 mb-4">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="white">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
-      <a href="{% url 'add_camp' %}" class="w-full text-center px-5 py-2 mb-2 bg-[#FFFFFF] text-black font-semibold rounded-full hover:bg-[#002437] transition duration-200 menu-button">
+      <a href="{% url 'add_camp' %}" class="w-full text-center px-5 py-2 mb-2 bg-[#FFFFFF] text-black font-semibold rounded-full hover:bg-[#CD4236] hover:text-white menu-button">
         โปรโมทกิจกรรม
       </a>
       {% if user.is_authenticated %}
-        <a href="{% url 'profile' %}" class="w-full text-center px-5 py-2 mb-2 bg-[#FFFFFF] text-black font-semibold rounded-full hover:bg-red-700 transition duration-200 menu-button">
+        <a href="{% url 'profile' %}" class="w-full text-center px-5 py-2 mb-2 bg-[#FFFFFF] text-black font-semibold rounded-full hover:bg-[#CD4236] hover:text-white menu-button">
           โปรไฟล์
         </a>
-        <a href="{% url 'account_logout' %}" class="w-full text-center px-5 py-2 mb-2 bg-[#FFFFFF] text-black font-semibold rounded-full hover:bg-red-700 transition duration-200 menu-button">
+        <a href="{% url 'account_logout' %}" class="w-full text-center px-5 py-2 mb-2 bg-[#FFFFFF] text-black font-semibold rounded-full hover:bg-[#CD4236] hover:text-white menu-button">
           ออกจากระบบ
         </a>
       {% else %}
-        <a href="{% url 'account_login' %}" class="w-full text-center px-5 py-2 mb-2 bg-[#FFFFFF] text-black font-semibold rounded-full hover:bg-red-700 transition duration-200 menu-button">
+        <a href="{% url 'account_login' %}" class="w-full text-center px-5 py-2 mb-2 bg-[#FFFFFF] text-black font-semibold rounded-full hover:bg-[#CD4236] hover:text-white menu-button">
           เข้าสู่ระบบ
         </a>
-        <a href="{% url 'account_signup' %}" class="w-full text-center px-5 py-2 mb-2 bg-[#FFFFFF] text-black font-semibold rounded-full hover:bg-[#002437] transition duration-200 menu-button">
+        <a href="{% url 'account_signup' %}" class="w-full text-center px-5 py-2 mb-2 bg-[#FFFFFF] text-black font-semibold rounded-full hover:bg-[#CD4236] hover:text-white menu-button">
           สมัครสมาชิก
         </a>
       {% endif %}
     </div>
 
-    <!-- White Bar: Logo and Buttons (Desktop only) -->
+    <!-- Desktop Navbar -->
     <div class="hidden md:flex bg-white shadow">
       <div class="container mx-auto flex justify-between items-center p-4">
-        <!-- Logo (Desktop, centered within its space) -->
         <a href="{% url 'home' %}">
-          <img src="{% static 'images/logo.png' %}" alt="Logo" class="h-16" />
+          <img src="{% static 'images/logo.png' %}" alt="Logo" class="h-16 transition-transform hover:scale-105" />
         </a>
-        <!-- ปุ่มโปรโมท + เข้าสู่ระบบ -->
-        <div class="flex gap-2 md:gap-3 lg:gap-4">
-          <a href="{% url 'add_camp' %}" class="px-3 py-1.5 md:px-4 md:py-2 lg:px-5 lg:py-2 bg-[#CD4236] text-white font-semibold rounded-full hover:bg-red-700 transition duration-200 text-sm md:text-base">
+        <div class="flex gap-3">
+          <a href="{% url 'add_camp' %}" class="px-5 py-2 bg-[#CD4236] text-white font-semibold rounded-full hover:bg-[#b02e24] transition-all hover:shadow-lg transform hover:scale-105">
             โปรโมทกิจกรรม
           </a>
           {% if user.is_authenticated %}
-            <a href="{% url 'profile' %}" class="px-3 py-1.5 md:px-4 md:py-2 lg:px-5 lg:py-2 bg-[#003049] text-white font-semibold rounded-full hover:bg-[#002437] transition duration-200 text-sm md:text-base">โปรไฟล์</a>
-            <a href="{% url 'account_logout' %}" class="px-3 py-1.5 md:px-4 md:py-2 lg:px-5 lg:py-2 bg-[#003049] text-white font-semibold rounded-full hover:bg-[#002437] transition duration-200 text-sm md:text-base">ออกจากระบบ</a>
-          {% else %}
-            <a href="{% url 'account_login' %}" class="px-3 py-1.5 md:px-4 md:py-2 lg:px-5 lg:py-2 bg-[#003049] text-white font-semibold rounded-full hover:bg-[#002437] transition duration-200 text-sm md:text-base">
-              เข้าสู่ระบบ 
+            <a href="{% url 'profile' %}" class="px-5 py-2 bg-[#003049] text-white font-semibold rounded-full hover:bg-[#002437] transition-all hover:shadow-lg transform hover:scale-105">
+              โปรไฟล์
             </a>
-            <a href="{% url 'account_signup' %}" class="px-3 py-1.5 md:px-4 md:py-2 lg:px-5 lg:py-2 bg-[#CD4236] text-white font-semibold rounded-full hover:bg-red-700 transition duration-200 text-sm md:text-base">
-              สมัครสมาชิก 
+            <a href="{% url 'account_logout' %}" class="px-5 py-2 bg-[#003049] text-white font-semibold rounded-full hover:bg-[#002437] transition-all hover:shadow-lg transform hover:scale-105">
+              ออกจากระบบ
+            </a>
+          {% else %}
+            <a href="{% url 'account_login' %}" class="px-5 py-2 bg-[#003049] text-white font-semibold rounded-full hover:bg-[#002437] transition-all hover:shadow-lg transform hover:scale-105">
+              เข้าสู่ระบบ
+            </a>
+            <a href="{% url 'account_signup' %}" class="px-5 py-2 bg-[#CD4236] text-white font-semibold rounded-full hover:bg-[#b02e24] transition-all hover:shadow-lg transform hover:scale-105">
+              สมัครสมาชิก
             </a>
           {% endif %}
         </div>
@@ -189,48 +233,37 @@
     <div class="bg-[#003049] text-white">
       <div class="w-full max-w-[720px] mx-auto p-4">
         <div class="grid grid-cols-6 gap-6 w-full">
-          <!-- ค่ายสายสุขภาพ -->
-          <a href="{% url 'category_camps' 'health' %}">
+          <a href="{% url 'category_camps' 'health' %}" class="category-link">
             <div class="flex flex-col items-center hover:opacity-80 transition">
               <img src="{% static 'images/Health.png' %}" alt="สุขภาพ" class="h-8 mb-1" />
               <span class="text-xs">สายสุขภาพ</span>
             </div>
           </a>
-          
-          <!-- ค่ายสายวิศวกรรม -->
-          <a href="{% url 'category_camps' 'engineering' %}">
+          <a href="{% url 'category_camps' 'engineering' %}" class="category-link">
             <div class="flex flex-col items-center hover:opacity-80 transition">
               <img src="{% static 'images/2.png' %}" alt="วิศวกรรม" class="h-8 mb-1" />
               <span class="text-xs">สายวิศวกรรม</span>
             </div>
           </a>
-          
-          <!-- ค่ายสายภาษา -->
-          <a href="{% url 'category_camps' 'language' %}">
+          <a href="{% url 'category_camps' 'language' %}" class="category-link">
             <div class="flex flex-col items-center hover:opacity-80 transition">
               <img src="{% static 'images/5.png' %}" alt="ภาษา" class="h-8 mb-1" />
               <span class="text-xs">สายภาษา</span>
             </div>
           </a>
-          
-          <!-- ค่ายสายสถาปัตย์ -->
-          <a href="{% url 'category_camps' 'architecture' %}">
+          <a href="{% url 'category_camps' 'architecture' %}" class="category-link">
             <div class="flex flex-col items-center hover:opacity-80 transition">
               <img src="{% static 'images/4.png' %}" alt="ประตย์" class="h-8 mb-1" />
               <span class="text-xs">สายสถาปัตย์</span>
             </div>
           </a>
-          
-          <!-- ค่ายอาสา -->
-          <a href="{% url 'category_camps' 'volunteer' %}">
+          <a href="{% url 'category_camps' 'volunteer' %}" class="category-link">
             <div class="flex flex-col items-center hover:opacity-80 transition">
               <img src="{% static 'images/3.png' %}" alt="อาสา" class="h-8 mb-1" />
               <span class="text-xs">ค่ายจิตอาสา</span>
             </div>
           </a>
-          
-          <!-- ค่ายสายดิจิทัล/IT -->
-          <a href="{% url 'category_camps' 'digital-it' %}">
+          <a href="{% url 'category_camps' 'digital-it' %}" class="category-link">
             <div class="flex flex-col items-center hover:opacity-80 transition">
               <img src="{% static 'images/6.png' %}" alt="ดิจิทัล-IT" class="h-8 mb-1" />
               <span class="text-xs text-center">สายดิจิทัล ไอที</span>
@@ -241,21 +274,19 @@
     </div>
   </header>
 
-  <!-- MAIN CONTENT -->
   <main class="flex-grow px-4 md:px-[70px] py-8">
     {% block content %}{% endblock %}
   </main>
 
-  <!-- FOOTER -->
-  <footer class="bg-[#003049] text-white py-4">
+  <footer class="bg-[#003049] text-white py-6">
     <div class="container mx-auto text-center">
       <p class="text-sm">
-        ติดต่อเรา: Pedddlecamps@example.com • โทร. 02-123-4567
+        ติดต่อเรา: <a href="mailto:Pedddlecamps@example.com" class="hover:underline">Pedddlecamps@example.com</a> • 
+        <a href="tel:021234567" class="hover:underline">โทร. 02-123-4567</a>
       </p>
     </div>
   </footer>
 
-  <!-- JavaScript for Hamburger Menu Toggle -->
   <script>
     const hamburgerBtn = document.getElementById('hamburger-btn');
     const closeBtn = document.getElementById('close-btn');
@@ -268,7 +299,13 @@
     closeBtn.addEventListener('click', () => {
       mobileMenu.classList.remove('open');
     });
-  </script>
 
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!mobileMenu.contains(e.target) && !hamburgerBtn.contains(e.target) && mobileMenu.classList.contains('open')) {
+        mobileMenu.classList.remove('open');
+      }
+    });
+  </script>
 </body>
 </html>

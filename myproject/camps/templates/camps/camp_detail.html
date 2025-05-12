@@ -1,35 +1,114 @@
 {% extends 'camps/base.html' %}
 
 {% block content %}
-<div class="max-w-5xl mx-auto py-8 px-4">
-    <h2 class="text-3xl font-bold text-center text-indigo-900 mb-8">{{ camp.title }}</h2>
+<div class="max-w-6xl mx-auto py-10 px-4">
+  <!-- หัวข้อ -->
+  <h2 class="text-4xl font-extrabold text-center text-indigo-900 mb-10 tracking-tight animate-fade-in" style="font-family: 'Cambria', 'Times New Roman', serif;">
+    {{ camp.title }}
+  </h2>
 
-    <div class="flex flex-col md:flex-row gap-8 items-start bg-white p-6 rounded-xl shadow-md">
-        <!-- รูปค่าย -->
-        <div class="md:w-1/2 w-full">
-            {% if camp.image %}
-                <img src="{{ camp.image.url }}" alt="Camp Image" class="w-full h-auto rounded-lg shadow-sm">
-            {% else %}
-                <img src="https://via.placeholder.com/400" alt="Placeholder" class="w-full h-auto rounded-lg shadow-sm">
-            {% endif %}
-        </div>
-
-        <!-- รายละเอียดค่าย -->
-        <div class="md:w-1/2 w-full space-y-3 text-gray-800 text-base">
-            <p><strong>รายละเอียด:</strong> {{ camp.description }}</p>
-            <p><strong>จำนวนผู้เข้าร่วม:</strong> {{ camp.participants }}</p>
-            <p><strong>สถานที่:</strong> {{ camp.location }}</p>
-            <p><strong>ค่าใช้จ่าย:</strong> {{ camp.fee }}</p>
-            <p><strong>วันที่เริ่มค่าย:</strong> {{ camp.camp_start_date }}</p>
-            <p><strong>วันที่สิ้นสุดค่าย:</strong> {{ camp.camp_end_date }}</p>
-            <p><strong>วันที่ปิดรับสมัคร:</strong> {{ camp.application_deadline }}</p>
-        </div>
+  <!-- กล่องเนื้อหา -->
+  <div class="bg-white shadow-lg rounded-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2 gap-8 p-6 md:p-10">
+    <!-- รูปภาพ -->
+    <div class="flex justify-center">
+      {% if camp.image %}
+        <img src="{{ camp.image.url }}" alt="Camp Image" class="w-full max-w-md h-auto rounded-xl shadow-md">
+      {% else %}
+        <img src="https://via.placeholder.com/500x300" alt="Placeholder" class="w-full max-w-md h-auto rounded-xl shadow-md">
+      {% endif %}
     </div>
 
-    <!-- ปุ่มด้านล่าง -->
-    <div class="flex flex-col sm:flex-row gap-4 justify-center mt-10">
-        <a href="https://forms.google.com" class="bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-md text-lg text-center w-full sm:w-64 transition">ลงทะเบียนผ่าน Google Forms</a>
-        <a href="{% url 'home' %}" class="bg-indigo-800 hover:bg-indigo-900 text-white py-3 px-6 rounded-md text-lg text-center w-full sm:w-64 transition">กลับสู่หน้าหลัก</a>
+    <!-- ข้อมูล -->
+    <div class="space-y-4 text-gray-800 text-[17px] leading-relaxed" style="font-family: 'Poppins', sans-serif;">
+      <p><span class="font-semibold text-indigo-800">รายละเอียด:</span> {{ camp.description|linebreaks }}</p>
+      <p><span class="font-semibold text-indigo-800">จำนวนผู้เข้าร่วม:</span> {{ camp.participants }}</p>
+      <p><span class="font-semibold text-indigo-800">สถานที่:</span> {{ camp.location }}</p>
+      <p><span class="font-semibold text-indigo-800">ค่าใช้จ่าย:</span> {{ camp.fee }}</p>
+      <p><span class="font-semibold text-indigo-800">วันที่เริ่มค่าย:</span> {{ camp.camp_start_date }}</p>
+      <p><span class="font-semibold text-indigo-800">วันที่สิ้นสุดค่าย:</span> {{ camp.camp_end_date }}</p>
+      <p><span class="font-semibold text-indigo-800">ปิดรับสมัคร:</span> {{ camp.application_deadline }}</p>
+
+      <!-- ปุ่มแชร์ไปยังแอพต่างๆ -->
+      <div class="flex justify-center gap-6 mt-8">
+        <!-- Facebook Share -->
+        <a href="fb-messenger://share?link={{ request.build_absolute_uri|urlencode }}&app_id=YOUR_FB_APP_ID" data-web-url="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri|urlencode }}" class="share-btn bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-110" aria-label="Share on Facebook">
+          <i class="fab fa-facebook-f text-xl"></i>
+        </a>
+        <!-- Twitter Share -->
+        <a href="twitter://post?message={{ camp.title|urlencode }}%20{{ request.build_absolute_uri|urlencode }}" data-web-url="https://twitter.com/intent/tweet?text={{ camp.title|urlencode }}&url={{ request.build_absolute_uri|urlencode }}" class="share-btn bg-blue-400 hover:bg-blue-500 text-white p-3 rounded-full flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-110" aria-label="Share on Twitter">
+          <i class="fab fa-twitter text-xl"></i>
+        </a>
+        <!-- Line Share -->
+        <a href="line://msg/text/{{ camp.title|urlencode }}%20{{ request.build_absolute_uri|urlencode }}" data-web-url="https://line.me/R/share?text={{ camp.title|urlencode }}%20{{ request.build_absolute_uri|urlencode }}" class="share-btn bg-green-500 hover:bg-green-600 text-white p-3 rounded-full flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-110" aria-label="Share on Line">
+          <i class="fab fa-line text-xl"></i>
+        </a>
+      </div>
     </div>
+  </div>
+
+  <!-- ปุ่มลิงก์ -->
+  <div class="flex flex-col sm:flex-row justify-center gap-4 mt-10">
+    <a href="https://forms.google.com" target="_blank" class="bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-xl text-lg font-medium w-full sm:w-64 text-center shadow-md transition-transform duration-200 hover:scale-105" style="font-family: 'Poppins', sans-serif;">
+      ลงทะเบียนผ่าน Google Forms
+    </a>
+    <a href="{% url 'home' %}" class="bg-indigo-700 hover:bg-indigo-800 text-white py-3 px-6 rounded-xl text-lg font-medium w-auto text-center shadow-md transition-transform duration-200 hover:scale-105" style="font-family: 'Poppins', sans-serif;">
+      กลับสู่หน้าหลัก
+    </a>
+  </div>
 </div>
+
+<style>
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.6s ease-out forwards;
+  }
+
+  /* Ensure image fits nicely */
+  img {
+    max-height: 400px;
+    object-fit: cover;
+  }
+
+  /* Font Awesome integration */
+  @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const shareButtons = document.querySelectorAll('.share-btn');
+
+    shareButtons.forEach(button => {
+      button.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevent default navigation
+
+        const mobileUrl = button.getAttribute('href');
+        const webUrl = button.getAttribute('data-web-url');
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+        // Try opening the app with the mobile deep link
+        if (isMobile) {
+          window.location.href = mobileUrl;
+
+          // Fallback to web URL if the app doesn't open after a short delay
+          setTimeout(() => {
+            if (document.hidden) return; // Avoid fallback if app opened
+            window.location.href = webUrl;
+          }, 1000);
+        } else {
+          // On desktop, open the web share dialog in a new window
+          window.open(webUrl, '_blank');
+        }
+      });
+    });
+  });
+</script>
 {% endblock %}

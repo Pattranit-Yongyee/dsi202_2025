@@ -6,6 +6,8 @@ from .forms import CampForm, StudentProfileForm
 from django.contrib import messages
 from django.db.models import Q
 from django.utils import timezone
+from datetime import date
+
 
 def home(request):
     categories = {
@@ -25,8 +27,17 @@ def home(request):
             'camps': camps
         }
 
-    # We need to ensure application_deadline is a DateField in the model for proper sorting
-    close_soon_camps = Camp.objects.filter(approved=True).order_by('application_deadline')[:10]
+    
+    # ดึงค่ายที่ใกล้ปิดรับสมัคร
+    close_soon_camps = Camp.objects.filter(
+        approved=True,
+        application_deadline__isnull=False,
+        application_deadline__gte=date.today()
+    ).order_by('application_deadline')[:10]
+
+    # คำนวณวันเหลือ
+    for camp in close_soon_camps:
+        camp.days_left = (camp.application_deadline - date.today()).days
 
     return render(request, 'camps/home.html', {
         'camps_by_category': camps_by_category,
