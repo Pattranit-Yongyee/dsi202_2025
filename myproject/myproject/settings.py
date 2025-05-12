@@ -150,3 +150,4 @@ ACCOUNT_SIGNUP_REDIRECT_URL = 'complete_profile' # Redirect ไปหน้า p
 ACCOUNT_LOGIN_ON_SIGNUP = True
 ACCOUNT_USERNAME_REQUIRED = False
 
+

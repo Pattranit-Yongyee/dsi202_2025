@@ -15,7 +15,7 @@
     
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #d8e3ff 0%, #e0e7ff 100%);
+      background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
     }
 
     /* Animated Background Circles */
@@ -180,12 +180,15 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
+       <a href="{% url 'home' %}" class="w-full text-center px-5 py-2 mb-2 bg-[#FFFFFF] text-black font-semibold rounded-full hover:bg-[#CD4236] hover:text-white menu-button">
+        หน้าหลัก
+      </a>
       <a href="{% url 'add_camp' %}" class="w-full text-center px-5 py-2 mb-2 bg-[#FFFFFF] text-black font-semibold rounded-full hover:bg-[#CD4236] hover:text-white menu-button">
-        โปรโมทกิจกรรม
+        โปรโมทกิจกรรม ฟรี!!
       </a>
       {% if user.is_authenticated %}
         <a href="{% url 'profile' %}" class="w-full text-center px-5 py-2 mb-2 bg-[#FFFFFF] text-black font-semibold rounded-full hover:bg-[#CD4236] hover:text-white menu-button">
-          โปรไฟล์
+          โปรไฟล์ 👤
         </a>
         <a href="{% url 'account_logout' %}" class="w-full text-center px-5 py-2 mb-2 bg-[#FFFFFF] text-black font-semibold rounded-full hover:bg-[#CD4236] hover:text-white menu-button">
           ออกจากระบบ
@@ -208,11 +211,11 @@
         </a>
         <div class="flex gap-3">
           <a href="{% url 'add_camp' %}" class="px-5 py-2 bg-[#CD4236] text-white font-semibold rounded-full hover:bg-[#b02e24] transition-all hover:shadow-lg transform hover:scale-105">
-            โปรโมทกิจกรรม
+            โปรโมทกิจกรรม ฟรี!!
           </a>
           {% if user.is_authenticated %}
             <a href="{% url 'profile' %}" class="px-5 py-2 bg-[#003049] text-white font-semibold rounded-full hover:bg-[#002437] transition-all hover:shadow-lg transform hover:scale-105">
-              โปรไฟล์
+              โปรไฟล์ 👤
             </a>
             <a href="{% url 'account_logout' %}" class="px-5 py-2 bg-[#003049] text-white font-semibold rounded-full hover:bg-[#002437] transition-all hover:shadow-lg transform hover:scale-105">
               ออกจากระบบ
