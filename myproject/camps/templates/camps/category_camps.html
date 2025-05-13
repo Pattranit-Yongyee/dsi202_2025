@@ -7,7 +7,7 @@
 
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-4 md:px-8">
     {% for camp in camps %}
-      <div class="bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden hover:-translate-y-1">
+      <a href="{% url 'camp_detail' camp.id %}" class="block bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden hover:-translate-y-1">
         {% if camp.image %}
           <img src="{{ camp.image.url }}" alt="{{ camp.title }}" class="w-full h-44 object-cover">
         {% else %}
@@ -23,11 +23,8 @@
             <p class="text-gray-700 text-sm">💰 ค่าใช้จ่าย: {{ camp.fee }}</p>
             <p><strong>⏳ ปิดรับสมัคร:</strong> {{ camp.application_deadline }}</p>
           </div>
-          <a href="{% url 'camp_detail' camp.id %}" class="mt-4 block w-full text-center bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition">
-            รายละเอียดเพิ่มเติม
-          </a>
         </div>
-      </div>
+      </a>
     {% endfor %}
   </div>
 {% endblock %}
