@@ -20,16 +20,16 @@
 
     <!-- ข้อมูล -->
     <div class="space-y-4 text-gray-800 text-[17px] leading-relaxed" style="font-family: 'Poppins', sans-serif;">
-      <p><span class="font-semibold text-indigo-800">รายละเอียด:</span> {{ camp.description|linebreaks }}</p>
-      <p><span class="font-semibold text-indigo-800">จำนวนผู้เข้าร่วม:</span> {{ camp.participants }}</p>
-      <p><span class="font-semibold text-indigo-800">สถานที่:</span> {{ camp.location }}</p>
-      <p><span class="font-semibold text-indigo-800">ค่าใช้จ่าย:</span> {{ camp.fee }}</p>
-      <p><span class="font-semibold text-indigo-800">วันที่เริ่มค่าย:</span> {{ camp.camp_start_date }}</p>
-      <p><span class="font-semibold text-indigo-800">วันที่สิ้นสุดค่าย:</span> {{ camp.camp_end_date }}</p>
-      <p><span class="font-semibold text-indigo-800">ปิดรับสมัคร:</span> {{ camp.application_deadline }}</p>
+      <p><span class="font-semibold text-indigo-800">📄 รายละเอียด:</span> {{ camp.description|linebreaks }}</p> 
+      <p><span class="font-semibold text-indigo-800">👥 จำนวนผู้เข้าร่วม:</span> {{ camp.participants }}</p>
+      <p><span class="font-semibold text-indigo-800">📍 สถานที่:</span> {{ camp.location }}</p>
+      <p><span class="font-semibold text-indigo-800">💰 ค่าใช้จ่าย:</span> {{ camp.fee }}</p>
+      <p><span class="font-semibold text-indigo-800">📅 วันที่เริ่มค่าย:</span> {{ camp.camp_start_date }}</p>
+      <p><span class="font-semibold text-indigo-800">📅 วันที่สิ้นสุดค่าย:</span> {{ camp.camp_end_date }}</p>
+      <p><span class="font-semibold text-indigo-800">⏳ ปิดรับสมัคร:</span> {{ camp.application_deadline }}</p>
 
       <!-- ปุ่มแชร์ไปยังแอพต่างๆ -->
-      <div class="flex justify-center gap-6 mt-8">
+      <div class="flex justify-left gap-6 mt-8">
         <!-- Facebook Share -->
         <a href="fb-messenger://share?link={{ request.build_absolute_uri|urlencode }}&app_id=YOUR_FB_APP_ID" data-web-url="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri|urlencode }}" class="share-btn bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-110" aria-label="Share on Facebook">
           <i class="fab fa-facebook-f text-xl"></i>

@@ -13,39 +13,48 @@
   </span>
 </h2>
 
-  <div class="relative overflow-hidden mb-20">
-  <div id="carousel" class="flex transition-transform duration-500 ease-in-out">
-    {% for camp in close_soon_camps %}
-      <div class="w-full md:w-1/2 flex-shrink-0 px-2">
-        <a href="{% url 'camp_detail' camp.id %}" class="block bg-white border rounded-xl shadow-md hover:shadow-xl hover:scale-[1.015] transition-all duration-300 p-10 relative">
-          
-          <!-- ป้ายแสดง "อีกกี่วัน" -->
+  <div class="relative overflow-hidden mb-12 max-w-2xl mx-auto">
+  <div id="carousel" class="flex transition-transform duration-500 ease-in-out ">
+    {% for camp in close_soon_camps|slice:":5" %}
+      <div class="w-full flex-shrink-0 px-3">
+        <a href="{% url 'camp_detail' camp.id %}" class="block bg-white border border-red-400 rounded-xl shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 p-6 relative">
+
           <div class="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-bl-lg shadow">
             อีก {{ camp.days_left }} วัน
           </div>
 
           {% if camp.image %}
-            <img src="{{ camp.image.url }}" alt="{{ camp.title }}" class="w-full h-44 object-cover rounded-lg mb-3">
+            <img src="{{ camp.image.url }}" alt="{{ camp.title }}" class="w-full h-36 object-cover rounded-lg mb-3">
           {% else %}
-            <img src="https://via.placeholder.com/300x160?text=No+Image" alt="No image" class="w-full h-44 object-cover rounded-lg mb-3">
+            <img src="https://via.placeholder.com/300x160?text=No+Image" alt="No image" class="w-full h-36 object-cover rounded-lg mb-3">
           {% endif %}
-          
-          <h3 class="font-semibold text-indigo-900 text-lg mb-1">{{ camp.title }}</h3>
+
+          <h3 class="font-semibold text-indigo-900 text-base mb-1">{{ camp.title }}</h3>
           <p class="text-sm text-gray-600 mb-1">{{ camp.description|truncatewords:15 }}</p>
           <p class="text-sm text-gray-700"><strong>ปิดรับ:</strong> {{ camp.application_deadline }}</p>
         </a>
       </div>
     {% endfor %}
+    <!-- Clone สไลด์แรกไว้เพื่อช่วยให้ลูปลื่น -->
+    {% with camp=close_soon_camps.0 %}
+    <div class="w-full flex-shrink-0 px-3">
+      <a href="{% url 'camp_detail' camp.id %}" class="block bg-white border border-red-400 rounded-xl shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 p-6 relative">
+        <div class="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-bl-lg shadow">
+          อีก {{ camp.days_left }} วัน
+        </div>
+        {% if camp.image %}
+          <img src="{{ camp.image.url }}" alt="{{ camp.title }}" class="w-full h-36 object-cover rounded-lg mb-3">
+        {% else %}
+          <img src="https://via.placeholder.com/300x160?text=No+Image" alt="No image" class="w-full h-36 object-cover rounded-lg mb-3">
+        {% endif %}
+        <h3 class="font-semibold text-indigo-900 text-base mb-1">{{ camp.title }}</h3>
+        <p class="text-sm text-gray-600 mb-1">{{ camp.description|truncatewords:15 }}</p>
+        <p class="text-sm text-gray-700"><strong>ปิดรับ:</strong> {{ camp.application_deadline }}</p>
+      </a>
+    </div>
+    {% endwith %}
   </div>
-
-    <!-- Navigation Buttons -->
-    <button onclick="prevSlide()" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-100 px-3 py-1 shadow rounded-full z-10 text-xl">
-      ‹
-    </button>
-    <button onclick="nextSlide()" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-100 px-3 py-1 shadow rounded-full z-10 text-xl">
-      ›
-    </button>
-  </div>
+</div>
 
   <!-- Divider Section -->
 <div class="my-16 relative flex items-center justify-center">
@@ -105,37 +114,58 @@
   </style>
 
   <script>
-    let currentIndex = 0;
-    const carousel = document.getElementById('carousel');
-    const slides = carousel.children;
-    const totalSlides = slides.length;
-    const slidesPerPage = window.innerWidth >= 768 ? 2 : 1;
+  let currentIndex = 0;
+  let carousel, slides, totalSlides, slideCount;
 
-    function updateSlide() {
-      const slideWidth = slides[0].offsetWidth + 16;
-      const newTransform = -currentIndex * slideWidth;
-      carousel.style.transform = `translateX(${newTransform}px)`;
+  window.addEventListener('load', () => {
+    carousel = document.getElementById('carousel');
+    slides = carousel.children;
+    slideCount = 5; // เราแสดงแค่ 5 ค่าย
+    totalSlides = slideCount + 1; // +1 เพราะ clone สไลด์แรกไว้ท้าย
+
+    updateSlide();
+
+    // Auto slide
+    setInterval(() => {
+      nextSlide();
+    }, 4000);
+  });
+
+  function updateSlide(animate = true) {
+    if (!animate) {
+      carousel.style.transition = 'none';
+    } else {
+      carousel.style.transition = 'transform 0.5s ease-in-out';
     }
+    const offset = -currentIndex * 100;
+    carousel.style.transform = `translateX(${offset}%)`;
+  }
 
-    function nextSlide() {
-      if (currentIndex < totalSlides - slidesPerPage) {
-        currentIndex++;
-        updateSlide();
-      }
+  function nextSlide() {
+    currentIndex++;
+    updateSlide();
+
+    // เมื่อถึงสไลด์ clone ให้กลับไป index 0 แบบไม่เห็นการกระตุก
+    if (currentIndex === totalSlides) {
+      setTimeout(() => {
+        currentIndex = 0;
+        updateSlide(false);
+      }, 500);
     }
+  }
 
-    function prevSlide() {
-      if (currentIndex > 0) {
+  function prevSlide() {
+    if (currentIndex === 0) {
+      currentIndex = slideCount;
+      updateSlide(false);
+      setTimeout(() => {
         currentIndex--;
         updateSlide();
-      }
-    }
-
-    window.addEventListener('resize', () => {
-      currentIndex = 0;
+      }, 20);
+    } else {
+      currentIndex--;
       updateSlide();
-    });
-    window.addEventListener('load', updateSlide);
-    
-  </script>
+    }
+  }
+</script>
 {% endblock %}

@@ -31,34 +31,41 @@
         </div>
     </div>
 
-    <!-- Recommended Camps -->
-    <div class="w-full lg:w-2/3">
-        <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200">
-            <h3 class="text-2xl font-bold text-indigo-900 mb-6">ค่ายแนะนำตามความสนใจ</h3>
-            {% if camps %}
-                <div class="max-h-96 overflow-y-auto pr-4">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        {% for camp in camps %}
-                            <div class="bg-gray-50 p-4 rounded-lg shadow hover:shadow-md transition-shadow">
-                                {% if camp.image %}
-                                    <img src="{{ camp.image.url }}" alt="{{ camp.title }}" class="w-full h-32 object-cover rounded-md mb-3">
-                                {% else %}
-                                    <div class="w-full h-32 bg-gray-200 rounded-md mb-3 flex items-center justify-center text-gray-500">
-                                        ไม่มีรูปภาพ
-                                    </div>
-                                {% endif %}
-                                <h4 class="text-lg font-semibold text-gray-800">{{ camp.title }}</h4>
-                                <p class="text-sm text-gray-600">หมวด: {{ camp.get_category_display }}</p>
-                                <p class="text-sm text-gray-600">ปิดรับสมัคร: {{ camp.application_deadline|date:"d/m/Y" }}</p>
-                                <a href="{% url 'camp_detail' camp.id %}" class="text-indigo-600 hover:text-indigo-800 text-sm">ดูรายละเอียด</a>
-                            </div>
-                        {% endfor %}
-                    </div>
+   <!-- Recommended Camps -->
+<div class="w-full lg:w-2/3">
+    <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200">
+        <h3 class="text-2xl font-bold text-indigo-900 mb-6">ค่ายแนะนำตามความสนใจ</h3>
+        {% if camps %}
+            <p class="text-sm text-gray-600 mb-4">แนะนำตาม: 
+                {% if profile.hobbies or profile.interests %}
+                    {{ profile.hobbies|default:"-" }}, {{ profile.interests|default:"-" }}
+                {% else %}
+                    กรุณากรอกงานอดิเรกหรือความสนใจเพื่อรับคำแนะนำ
+                {% endif %}
+            </p>
+            <div class="max-h-96 overflow-y-auto pr-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    {% for camp in camps %}
+                        <div class="bg-gray-50 p-4 rounded-lg shadow hover:shadow-md transition-shadow">
+                            {% if camp.image %}
+                                <img src="{{ camp.image.url }}" alt="{{ camp.title }}" class="w-full h-32 object-cover rounded-md mb-3">
+                            {% else %}
+                                <div class="w-full h-32 bg-gray-200 rounded-md mb-3 flex items-center justify-center text-gray-500">
+                                    ไม่มีรูปภาพ
+                                </div>
+                            {% endif %}
+                            <h4 class="text-lg font-semibold text-gray-800">{{ camp.title }}</h4>
+                            <p class="text-sm text-gray-600">หมวด: {{ camp.get_category_display }}</p>
+                            <p class="text-sm text-gray-600">⏳ ปิดรับสมัคร: {{ camp.application_deadline|date:"d/m/Y" }}</p>
+                            <a href="{% url 'camp_detail' camp.id %}" class="text-indigo-600 hover:text-indigo-800 text-sm">ดูรายละเอียด</a>
+                        </div>
+                    {% endfor %}
                 </div>
-            {% else %}
-                <p class="text-gray-600">ไม่มีค่ายที่ตรงกับงานอดิเรกหรือความสนใจของคุณในขณะนี้</p>
-            {% endif %}
-        </div>
+            </div>
+        {% else %}
+            <p class="text-gray-600">ไม่มีค่ายที่ตรงกับงานอดิเรกหรือความสนใจของคุณในขณะนี้</p>
+            <p class="text-gray-600">ลองเพิ่มงานอดิเรกหรือความสนใจ เช่น วิทยาศาสตร์, โปรแกรมมิ่ง, หรือศิลปะ!</p>
+        {% endif %}
     </div>
 </div>
 
@@ -98,27 +105,24 @@
     const cancelBtn = document.getElementById('cancel-btn');
     const editProfileForm = document.getElementById('edit-profile-form');
 
-    // Open modal with animation
     editProfileBtn.addEventListener('click', () => {
         editProfileModal.classList.remove('hidden');
         setTimeout(() => {
             editProfileModal.classList.remove('opacity-0');
             modalContent.classList.remove('scale-95');
             modalContent.classList.add('scale-100');
-        }, 10); // Small delay to ensure transition applies
+        }, 10);
     });
 
-    // Close modal with animation
     cancelBtn.addEventListener('click', () => {
         editProfileModal.classList.add('opacity-0');
         modalContent.classList.remove('scale-100');
         modalContent.classList.add('scale-95');
         setTimeout(() => {
             editProfileModal.classList.add('hidden');
-        }, 300); // Match transition duration
+        }, 300);
     });
 
-    // Handle form submission with AJAX
     editProfileForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const formData = new FormData(editProfileForm);
@@ -133,19 +137,29 @@
             });
 
             if (response.ok) {
-                // Close modal with animation and reload page
                 editProfileModal.classList.add('opacity-0');
                 modalContent.classList.remove('scale-100');
                 modalContent.classList.add('scale-95');
                 setTimeout(() => {
                     editProfileModal.classList.add('hidden');
-                    window.location.reload();
-                }, 300); // Match transition duration
+                    fetch(window.location.href)
+                        .then(res => res.text())
+                        .then(html => {
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(html, 'text/html');
+                            const newCampsSection = doc.querySelector('.w-full.lg\\:w-2\\/3');
+                            document.querySelector('.w-full.lg\\:w-2\\/3').outerHTML = newCampsSection.outerHTML;
+                            const newProfileSection = doc.querySelector('.w-full.lg\\:w-1\\/3');
+                            document.querySelector('.w-full.lg\\:w-1\\/3').outerHTML = newProfileSection.outerHTML;
+                        });
+                }, 300);
             } else {
-                // Handle errors (e.g., display form errors)
                 const data = await response.json();
                 console.error('Form submission error:', data);
-                // Optionally, display errors in the modal
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'text-red-600 text-sm mt-2';
+                errorDiv.textContent = 'เกิดข้อผิดพลาดในการบันทึก กรุณาลองอีกครั้ง';
+                editProfileForm.prepend(errorDiv);
             }
         } catch (error) {
             console.error('Error submitting form:', error);

@@ -51,6 +51,33 @@ def category_camps(request, category_slug):
 
     return render(request, 'camps/category_camps.html', {'camps': camps, 'category_name': category_name})
 
+def category(request, category_slug):
+    # Map category slug to category name
+    category_mapping = {
+        'health': 'สุขภาพ',
+        'engineering': 'วิศวกรรม',
+        'digital-it': 'ดิจิทัลและไอที',
+        'architecture': 'สถาปัตยกรรม',
+        'language': 'ภาษา',
+        'volunteer': 'จิตอาสา',
+    }
+
+    # Get category name for display
+    category_name = category_mapping.get(category_slug, 'ไม่ทราบหมวดหมู่')
+
+    # Get camps in the category
+    camps = Camp.objects.filter(
+        category=category_slug,
+        approved=True,
+        application_deadline__gte=timezone.now().date()
+    ).order_by('application_deadline')
+
+    return render(request, 'camps/category.html', {
+        'camps': camps,
+        'category_name': category_name,
+        'category_slug': category_slug,
+    })
+
 def camp_detail(request, camp_id):
     # แสดงรายละเอียดค่าย
     camp = get_object_or_404(Camp, pk=camp_id)
@@ -93,15 +120,15 @@ def complete_profile(request):
 def profile(request):
     profile, created = StudentProfile.objects.get_or_create(user=request.user)
     camps = []
-    
+
     if profile.hobbies or profile.interests:
-        # Combine hobbies and interests, split by commas, and strip whitespace
+        # รวม hobbies และ interests
         keywords = []
         if profile.hobbies:
-            keywords.extend([h.strip() for h in profile.hobbies.split(',')])
+            keywords.extend([h.strip().lower() for h in profile.hobbies.split(',')])
         if profile.interests:
-            keywords.extend([i.strip() for i in profile.interests.split(',')])
-        
+            keywords.extend([i.strip().lower() for i in profile.interests.split(',')])
+
         # Map Thai category names to Camp model category values
         category_mapping = {
             'สุขภาพ': 'health',
@@ -111,22 +138,35 @@ def profile(request):
             'สถาปัตยกรรม': 'architecture',
             'ภาษา': 'language',
             'จิตอาสา': 'volunteer',
+            'วิทยาศาสตร์': 'digital-it',
+            'โปรแกรมมิ่ง': 'digital-it',
+            'ศิลปะ': 'architecture',
         }
-        
-        # Build query for matching categories
-        category_filters = Q()
+
+        # สร้าง query สำหรับค้นหาค่าย
+        filters = Q()
         for keyword in keywords:
+            # จับคู่กับ category
             for thai_category, model_category in category_mapping.items():
                 if thai_category in keyword:
-                    category_filters |= Q(category=model_category)
-        
-        # Query camps with matching categories, approved, and future deadlines
+                    filters |= Q(category=model_category)
+            # จับคู่กับ title และ description
+            filters |= Q(title__icontains=keyword) | Q(description__icontains=keyword)
+
+        # ดึงค่ายที่ตรงเงื่อนไข
         camps = Camp.objects.filter(
-            category_filters,
+            filters,
             approved=True,
             application_deadline__gte=timezone.now().date()
-        ).order_by('application_deadline')[:15]
-    
+        ).distinct().order_by('application_deadline')[:15]
+
+    # ถ้าไม่มีค่ายที่ตรงกัน แสดงค่ายทั่วไป
+    if not camps:
+        camps = Camp.objects.filter(
+            approved=True,
+            application_deadline__gte=timezone.now().date()
+        ).order_by('application_deadline')[:5]  # ใช้ application_deadline แทน created_at
+
     if request.method == 'POST':
         form = StudentProfileForm(request.POST, instance=profile, user=request.user)
         if form.is_valid():
@@ -134,7 +174,7 @@ def profile(request):
             return redirect('profile')
     else:
         form = StudentProfileForm(instance=profile, user=request.user)
-    
+
     return render(request, 'camps/profile.html', {
         'profile': profile,
         'form': form,

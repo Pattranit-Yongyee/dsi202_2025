@@ -33,6 +33,7 @@ class Camp(models.Model):
 
     def __str__(self):
         return self.title
+    
 
 class StudentProfile(models.Model):
     EDUCATION_LEVELS = [

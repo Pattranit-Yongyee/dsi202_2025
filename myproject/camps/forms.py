@@ -32,16 +32,31 @@ class StudentProfileForm(forms.ModelForm):
         fields = ['education_level', 'hobbies', 'interests']
         widgets = {
             'education_level': forms.Select(),
-            'hobbies': forms.Textarea(attrs={'rows': 4, 'placeholder': 'เช่น อ่านหนังสือ, เล่นกีฬา'}),
-            'interests': forms.Textarea(attrs={'rows': 4, 'placeholder': 'เช่น วิทยาศาสตร์, ศิลปะ'}),
+            'hobbies': forms.TextInput(attrs={
+                'placeholder': 'เช่น อ่านหนังสือ, เล่นกีฬา, โปรแกรมมิ่ง (คั่นด้วย comma)',
+                'class': 'w-full p-3 border border-gray-300 rounded-lg'
+            }),
+            'interests': forms.TextInput(attrs={
+                'placeholder': 'เช่น วิทยาศาสตร์, ศิลปะ, เทคโนโลยี (คั่นด้วย comma)',
+                'class': 'w-full p-3 border border-gray-300 rounded-lg'
+            }),
         }
 
     def __init__(self, *args, **kwargs):
-        # ดึง user ถ้ามีการส่งเข้ามา
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
-
-        # ปรับ label ฟิลด์
         self.fields['education_level'].label = 'ระดับชั้น'
         self.fields['hobbies'].label = 'งานอดิเรก'
         self.fields['interests'].label = 'ความสนใจ'
+
+    def clean_hobbies(self):
+        hobbies = self.cleaned_data.get('hobbies')
+        if hobbies and ',' not in hobbies:
+            raise forms.ValidationError('กรุณาคั่นงานอดิเรกด้วยเครื่องหมาย comma (,)')
+        return hobbies
+
+    def clean_interests(self):
+        interests = self.cleaned_data.get('interests')
+        if interests and ',' not in interests:
+            raise forms.ValidationError('กรุณาคั่นความสนใจด้วยเครื่องหมาย comma (,)')
+        return interests

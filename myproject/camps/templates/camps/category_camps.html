@@ -18,9 +18,10 @@
           <h3 class="text-xl font-semibold text-indigo-900 mb-2 truncate">{{ camp.title }}</h3>
           <p class="text-sm text-gray-600 mb-2 line-clamp-3">{{ camp.description }}</p>
           <div class="text-sm text-gray-700 space-y-1">
-            <p><strong>สถานที่:</strong> {{ camp.location }}</p>
-            <p><strong>ค่าใช้จ่าย:</strong> {{ camp.fee }}</p>
-            <p><strong>ปิดรับสมัคร:</strong> {{ camp.application_deadline }}</p>
+            <p class="text-gray-700 text-sm">👥 ผู้เข้าร่วม: {{ camp.participants }}</p>
+            <p class="text-gray-700 text-sm">📍 สถานที่: {{ camp.location }}</p>
+            <p class="text-gray-700 text-sm">💰 ค่าใช้จ่าย: {{ camp.fee }}</p>
+            <p><strong>⏳ ปิดรับสมัคร:</strong> {{ camp.application_deadline }}</p>
           </div>
           <a href="{% url 'camp_detail' camp.id %}" class="mt-4 block w-full text-center bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition">
             รายละเอียดเพิ่มเติม
