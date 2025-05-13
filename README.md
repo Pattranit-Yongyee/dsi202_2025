@@ -71,4 +71,8 @@ _ในฐานะผู้ใช้ทั่วไป ฉันต้องก
    cd dsi202_2025
 2. docker-compose build เพื่อที่ build image ใน Docker เพื่อ เป็นcontainerให้งานเรา
 3. docker-compose up เพื่อที่จะรัน container 
-4. หลังจากนั้นก็สามารถที่จะเข้าหน้าเว็บได้ โดยใช้ localhost:8000 
+4. หลังจากนั้นก็สามารถที่จะเข้าหน้าเว็บได้ โดยใช้ localhost:8000
+
+
+## Youtube Video Instruction
+https://youtu.be/ftFKgqGPNbQ
