@@ -70,8 +70,21 @@ _ในฐานะผู้ใช้ทั่วไป ฉันต้องก
    git clone https://github.com/Pattranit-Yongyee/dsi202_2025.git
    cd dsi202_2025
 2. docker-compose build เพื่อที่ build image ใน Docker เพื่อ เป็นcontainerให้งานเรา
-3. docker-compose up เพื่อที่จะรัน container 
-4. หลังจากนั้นก็สามารถที่จะเข้าหน้าเว็บได้ โดยใช้ localhost:8000
+3. docker-compose up เพื่อที่จะรัน container
+4. ทำการเพิ่ม ลงใน setting.py
+   ```bash
+   SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "SCOPE": ["profile", "email"],
+        "AUTH_PARAMS": {"access_type": "online"},
+        "APP": {
+            "client_id": "Client ID ที่สร้างขึ้นมา",
+            "secret": "Client secret ที่สร้างขึ้นมา",
+            "key": "",
+        },
+    }
+}
+6. หลังจากนั้นก็สามารถที่จะเข้าหน้าเว็บได้ โดยใช้ localhost:8000
 
 
 ## Youtube Video Instruction
