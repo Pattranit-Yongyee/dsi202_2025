@@ -82,5 +82,5 @@ _ในฐานะผู้ใช้ทั่วไป ฉันต้องก
    python manage.py createsuperuser
 กำหนด **ชื่อ** และ **รหัส**ให้เรียบร้อย หลังจากนั้นก็เข้า Admin โดยใช้ localhost:8000/admin
 
-## Youtube Video Instruction
-
+## Youtube Video Instruction การใช้งานเว็บไซต์เบื้องต้น
+https://youtu.be/6Gn22EmvgBE
