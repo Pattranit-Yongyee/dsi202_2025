@@ -71,21 +71,16 @@ _ในฐานะผู้ใช้ทั่วไป ฉันต้องก
    cd dsi202_2025
 2. docker-compose build เพื่อที่ build image ใน Docker เพื่อ เป็นcontainerให้งานเรา
 3. docker-compose up เพื่อที่จะรัน container
-4. ทำการเพิ่ม ลงใน setting.py
+4. สร้าง .env เพื่อเก็บ Client ID และ Client secret ของ Google
+   ```python
+   GOOGLE_CLIENT_ID="ระบุ"
+   GOOGLE_CLIENT_SECRET="ระบุ"
+5. หลังจากนั้นก็สามารถที่จะเข้าหน้าเว็บได้ โดยใช้ localhost:8000
+6. docker-compose exec web bash
+7. สร้างuserเพื่อใช้งานหน้า Admin 
    ```bash
-   SOCIALACCOUNT_PROVIDERS = {
-    "google": {
-        "SCOPE": ["profile", "email"],
-        "AUTH_PARAMS": {"access_type": "online"},
-        "APP": {
-            "client_id": "Client ID ที่สร้างขึ้นมา",
-            "secret": "Client secret ที่สร้างขึ้นมา",
-            "key": "",
-        },
-    }
-}
-6. หลังจากนั้นก็สามารถที่จะเข้าหน้าเว็บได้ โดยใช้ localhost:8000
-
+   python manage.py createsuperuser
+กำหนด **ชื่อ** และ **รหัส**ให้เรียบร้อย หลังจากนั้นก็เข้า Admin โดยใช้ localhost:8000/admin
 
 ## Youtube Video Instruction
 
