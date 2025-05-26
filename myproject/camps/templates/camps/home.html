@@ -3,187 +3,184 @@
 {% block content %}
   <div class="mt-16">
     <!-- ข้อความหลัก -->
-  <h2 class="text-3xl md:text-5xl font-extrabold text-center bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 text-transparent bg-clip-text tracking-tight mb-12 animate-fade-in relative z-10">
-    Welcome to Peddle Camp<br>
-    <span class="text-xl md:text-2xl font-medium block mt-2 subtitle bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 text-transparent bg-clip-text">" The Space where you discover YOURSELF "</span>
-  </h2>
+    <h2 class="text-3xl sm:text-5xl font-extrabold text-center bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 text-transparent bg-clip-text tracking-tight mb-12 animate-fade-in relative z-10">
+      Welcome to Peddle Camp<br>
+      <span class="text-xl sm:text-2xl font-medium block mt-2 subtitle bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 text-transparent bg-clip-text">" The Space where you discover YOURSELF "</span>
+    </h2>
 
-  <h2 class="text-2xl font-bold text-center mb-8 text-red-600">
-    🔥 <span class="bg-gradient-to-r from-red-500 via-orange-400 to-pink-500 text-transparent bg-clip-text">
-      ค่ายที่ใกล้ปิดรับสมัคร! รีบสมัครเลย!
-    </span>
-  </h2>
+    <h2 class="text-2xl font-bold text-center mb-8 text-red-600">
+      🔥 <span class="bg-gradient-to-r from-red-500 via-orange-400 to-pink-500 text-transparent bg-clip-text">
+        ค่ายที่ใกล้ปิดรับสมัคร! รีบสมัครเลย!
+      </span>
+    </h2>
 
-  <!-- Carousel Section -->
-  <div class="relative overflow-hidden mb-12 max-w-4xl mx-auto"> 
-    <div id="carousel" class="flex transition-transform duration-500 ease-in-out">
-      {% for camp in close_soon_camps|slice:":5" %}
-        <div class="w-full flex-shrink-0 px-4"> 
-          <a href="{% url 'camp_detail' camp.id %}" class="block bg-white border border-red-400 rounded-xl shadow-md hover:shadow-xl hover:scale-[1] transition-all duration-300 p-8 relative"> 
-
-            <div class="absolute top-0 right-0 bg-red-500 text-white text-sm font-bold px-3 py-1 rounded-bl-lg shadow"> 
-              อีก {{ camp.days_left }} วัน
-            </div>
-
-            {% if camp.image %}
-              <img src="{{ camp.image.url }}" alt="{{ camp.title }}" class="w-full h-48 object-cover rounded-lg mb-4"> 
-            {% else %}
-              <img src="https://via.placeholder.com/400x192?text=No+Image" alt="No image" class="w-full h-48 object-cover rounded-lg mb-4"> 
-            {% endif %}
-
-            <h3 class="font-semibold text-indigo-900 text-lg mb-2">{{ camp.title }}</h3>
-            <p class="text-base text-gray-600 mb-2">{{ camp.description|truncatewords:15 }}</p> 
-            <p class="text-base text-gray-700"><strong>ปิดรับ:</strong> {{ camp.application_deadline }}</p> 
-          </a>
-        </div>
-      {% endfor %}
-
-      <!-- Clone สไลด์แรกไว้เพื่อช่วยให้ลูปลื่น -->
-      {% with camp=close_soon_camps.0 %}
-        {% if camp %}
-          <div class="w-full flex-shrink-0 px-4"> <!-- ปรับให้สอดคล้องกับสไลด์อื่น -->
-            <a href="{% url 'camp_detail' camp.id %}" class="block bg-white border border-red-400 rounded-xl shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 p-8 relative">
-              <div class="absolute top-0 right-0 bg-red-500 text-white text-sm font-bold px-3 py-1 rounded-bl-lg shadow">
+    <!-- Carousel Section -->
+    <div class="relative overflow-hidden mb-12 max-w-4xl mx-auto">
+      <div id="carousel" class="flex transition-transform duration-500 ease-in-out">
+        {% for camp in close_soon_camps|slice:":5" %}
+          <div class="w-full flex-shrink-0 px-4">
+            <a href="{% url 'camp_detail' camp.id %}" class="block bg-white border border-red-400 rounded-xl shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 p-4 sm:p-8 relative">
+              <div class="absolute top-0 right-0 bg-red-500 text-white text-xs sm:text-sm font-bold px-2 sm:px-3 py-1 rounded-bl-lg shadow">
                 อีก {{ camp.days_left }} วัน
               </div>
               {% if camp.image %}
-                <img src="{{ camp.image.url }}" alt="{{ camp.title }}" class="w-full h-48 object-cover rounded-lg mb-4"> <!-- ปรับขนาดให้สอดคล้อง -->
+                <img src="{{ camp.image.url }}" alt="{{ camp.title }}" class="w-full h-32 sm:h-48 object-cover rounded-lg mb-2 sm:mb-4">
               {% else %}
-                <img src="https://via.placeholder.com/400x192?text=No+Image" alt="No image" class="w-full h-48 object-cover rounded-lg mb-4">
+                <img src="https://via.placeholder.com/400x192?text=No+Image" alt="No image" class="w-full h-32 sm:h-48 object-cover rounded-lg mb-2 sm:mb-4">
               {% endif %}
-              <h3 class="font-semibold text-indigo-900 text-lg mb-2">{{ camp.title }}</h3>
-              <p class="text-base text-gray-600 mb-2">{{ camp.description|truncatewords:15 }}</p>
-              <p class="text-base text-gray-700"><strong>ปิดรับ:</strong> {{ camp.application_deadline }}</p>
+              <h3 class="font-semibold text-indigo-900 text-sm sm:text-lg mb-1 sm:mb-2">{{ camp.title }}</h3>
+              <p class="text-xs sm:text-base text-gray-600 mb-1 sm:mb-2 hidden sm:block">{{ camp.description|truncatewords:15 }}</p>
+              <p class="text-xs sm:text-base text-gray-700"><strong>ปิดรับ:</strong> {{ camp.application_deadline }}</p>
             </a>
           </div>
-        {% endif %}
-      {% endwith %}
-    </div>
-  </div>
-
-  <!-- Divider Section -->
-  <div class="my-16 relative flex items-center justify-center">
-    <div class="absolute w-full border-t border-gray-300"></div>
-    <span class="bg-white px-4 text-gray-500 text-sm z-10"></span>
-  </div>
-
-  <!-- Category Sections -->
-  {% for category_slug, category_info in camps_by_category.items %}
-    <div class="mb-10 border border-gray-200 rounded-xl shadow p-5 bg-white animate-fade-in">
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-bold text-red-500">
-          {{ category_info.display_name }}
-        </h2>
-        <a href="{% url 'category_camps' category_slug %}" class="text-sm text-indigo-600 hover:underline">
-          ดูค่ายทั้งหมด →
-        </a>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-        {% for camp in category_info.camps %}
-          <a href="{% url 'camp_detail' camp.id %}" class="block border border-gray-100 bg-gray-50 hover:bg-white rounded-lg p-4 shadow hover:scale-[1.02] hover:shadow-md transition-all duration-300">
-            {% if camp.image %}
-              <img src="{{ camp.image.url }}" alt="{{ camp.title }}" class="w-full h-36 object-cover rounded mb-3">
-            {% else %}
-              <img src="https://via.placeholder.com/200" alt="Placeholder" class="w-full h-36 object-cover rounded mb-3">
-            {% endif %}
-            <h3 class="text-base font-semibold text-indigo-800 mb-1">{{ camp.title }}</h3>
-            <p class="text-gray-600 mb-1 text-sm">{{ camp.description|truncatewords:15 }}</p>
-            <p class="text-gray-700 text-sm">👥 ผู้เข้าร่วม: {{ camp.participants }}</p>
-            <p class="text-gray-700 text-sm">📍 สถานที่: {{ camp.location }}</p>
-            <p class="text-gray-700 text-sm">💰 ค่าใช้จ่าย: {{ camp.fee }}</p>
-          </a>
         {% endfor %}
+        <!-- Clone สไลด์แรกไว้เพื่อช่วยให้ลูปลื่น -->
+        {% with camp=close_soon_camps.0 %}
+          {% if camp %}
+            <div class="w-full flex-shrink-0 px-4">
+              <a href="{% url 'camp_detail' camp.id %}" class="block bg-white border border-red-400 rounded-xl shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 p-4 sm:p-8 relative">
+                <div class="absolute top-0 right-0 bg-red-500 text-white text-xs sm:text-sm font-bold px-2 sm:px-3 py-1 rounded-bl-lg shadow">
+                  อีก {{ camp.days_left }} วัน
+                </div>
+                {% if camp.image %}
+                  <img src="{{ camp.image.url }}" alt="{{ camp.title }}" class="w-full h-32 sm:h-48 object-cover rounded-lg mb-2 sm:mb-4">
+                {% else %}
+                  <img src="https://via.placeholder.com/400x192?text=No+Image" alt="No image" class="w-full h-32 sm:h-48 object-cover rounded-lg mb-2 sm:mb-4">
+                {% endif %}
+                <h3 class="font-semibold text-indigo-900 text-sm sm:text-lg mb-1 sm:mb-2">{{ camp.title }}</h3>
+                <p class="text-xs sm:text-base text-gray-600 mb-1 sm:mb-2 hidden sm:block">{{ camp.description|truncatewords:15 }}</p>
+                <p class="text-xs sm:text-base text-gray-700"><strong>ปิดรับ:</strong> {{ camp.application_deadline }}</p>
+              </a>
+            </div>
+          {% endif %}
+        {% endwith %}
       </div>
     </div>
-  {% endfor %}
 
-  <style>
-    @keyframes pulse-slow {
-    0%, 100% {
-      transform: scale(1);
-      opacity: 0.8;
-    }
-    50% {
-      transform: scale(1.02);
-      opacity: 1;
-    }
-  }
+    <!-- Divider Section -->
+    <div class="my-16 relative flex items-center justify-center">
+      <div class="absolute w-full border-t border-gray-300"></div>
+      <span class="bg-white px-4 text-gray-500 text-sm z-10"></span>
+    </div>
 
-  .animate-pulse-slow {
-    animation: pulse-slow 3s ease-in-out infinite;
-  }
+    <!-- Category Sections -->
+    {% for category_slug, category_info in camps_by_category.items %}
+      <div class="mb-10 border border-gray-200 rounded-xl shadow p-4 sm:p-5 bg-white animate-fade-in">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-base sm:text-lg font-bold text-red-500">
+            {{ category_info.display_name }}
+          </h2>
+          <a href="{% url 'category_camps' category_slug %}" class="text-xs sm:text-sm text-indigo-600 hover:underline">
+            ดูค่ายทั้งหมด →
+          </a>
+        </div>
 
-  @keyframes fade-in {
-    0% {
-      opacity: 0;
-      transform: translateY(15px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-5">
+          {% for camp in category_info.camps %}
+            <a href="{% url 'camp_detail' camp.id %}" class="block border border-gray-100 bg-gray-50 hover:bg-white rounded-lg p-3 sm:p-4 shadow hover:scale-[1.02] hover:shadow-md transition-all duration-300">
+              {% if camp.image %}
+                <img src="{{ camp.image.url }}" alt="{{ camp.title }}" class="w-full h-24 sm:h-36 object-cover rounded mb-2 sm:mb-3">
+              {% else %}
+                <img src="https://via.placeholder.com/200" alt="Placeholder" class="w-full h-24 sm:h-36 object-cover rounded mb-2 sm:mb-3">
+              {% endif %}
+              <h3 class="text-xs sm:text-base font-semibold text-indigo-800 mb-1">{{ camp.title }}</h3>
+              <p class="text-xs sm:text-sm text-gray-600 mb-1 hidden sm:block">{{ camp.description|truncatewords:15 }}</p>
+              <p class="text-xs sm:text-sm text-gray-700">📍 สถานที่: {{ camp.location }}</p>
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
 
-  .animate-fade-in {
-    animation: fade-in 0.6s ease-out;
-  }
-</style>
-  </style>
-
-  <script>
-    let currentIndex = 0;
-    let carousel, slides, totalSlides, slideCount;
-
-    window.addEventListener('load', () => {
-      carousel = document.getElementById('carousel');
-      slides = carousel.children;
-      slideCount = 5; // เราแสดงแค่ 5 ค่าย
-      totalSlides = slideCount + 1; // +1 เพราะ clone สไลด์แรกไว้ท้าย
-
-      updateSlide();
-
-      // Auto slide
-      setInterval(() => {
-        nextSlide();
-      }, 4000);
-    });
-
-    function updateSlide(animate = true) {
-      if (!animate) {
-        carousel.style.transition = 'none';
-      } else {
-        carousel.style.transition = 'transform 0.5s ease-in-out';
+    <style>
+      @keyframes pulse-slow {
+        0%, 100% {
+          transform: scale(1);
+          opacity: 0.8;
+        }
+        50% {
+          transform: scale(1.02);
+          opacity: 1;
+        }
       }
-      const offset = -currentIndex * 100;
-      carousel.style.transform = `translateX(${offset}%)`;
-    }
 
-    function nextSlide() {
-      currentIndex++;
-      updateSlide();
+      .animate-pulse-slow {
+        animation: pulse-slow 3s ease-in-out infinite;
+      }
 
-      // เมื่อถึงสไลด์ clone ให้กลับไป index 0 แบบไม่เห็นการกระตุก
-      if (currentIndex === totalSlides) {
-        setTimeout(() => {
-          currentIndex = 0;
+      @keyframes fade-in {
+        0% {
+          opacity: 0;
+          transform: translateY(15px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-fade-in {
+        animation: fade-in 0.6s ease-out;
+      }
+    </style>
+
+    <script>
+      let currentIndex = 0;
+      let carousel, slides, totalSlides, slideCount;
+
+      window.addEventListener('load', () => {
+        carousel = document.getElementById('carousel');
+        slides = carousel.children;
+        slideCount = 5; // เราแสดงแค่ 5 ค่าย
+        totalSlides = slideCount + 1; // +1 เพราะ clone สไลด์แรกไว้ท้าย
+
+        updateSlide();
+
+        // Auto slide
+        setInterval(() => {
+          nextSlide();
+        }, 4000);
+      });
+
+      function updateSlide(animate = true) {
+        if (!animate) {
+          carousel.style.transition = 'none';
+        } else {
+          carousel.style.transition = 'transform 0.5s ease-in-out';
+        }
+        const offset = -(currentIndex * 100); // Always 100% offset (one slide per view)
+        carousel.style.transform = `translateX(${offset}%)`;
+      }
+
+      function nextSlide() {
+        currentIndex++;
+        updateSlide();
+
+        if (currentIndex === totalSlides) {
+          setTimeout(() => {
+            currentIndex = 0;
+            updateSlide(false);
+          }, 500);
+        }
+      }
+
+      function prevSlide() {
+        if (currentIndex === 0) {
+          currentIndex = slideCount;
           updateSlide(false);
-        }, 500);
-      }
-    }
-
-    function prevSlide() {
-      if (currentIndex === 0) {
-        currentIndex = slideCount;
-        updateSlide(false);
-        setTimeout(() => {
+          setTimeout(() => {
+            currentIndex--;
+            updateSlide();
+          }, 20);
+        } else {
           currentIndex--;
           updateSlide();
-        }, 20);
-      } else {
-        currentIndex--;
-        updateSlide();
+        }
       }
-    }
-  </script>
+
+      window.addEventListener('resize', () => {
+        updateSlide(false);
+      });
+    </script>
+  </div>
 {% endblock %}

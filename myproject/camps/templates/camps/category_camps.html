@@ -1,27 +1,30 @@
 {% extends 'camps/base.html' %}
 
 {% block content %}
-  <h2 class="text-3xl font-bold text-center mb-10 text-indigo-800 tracking-tight">
+  <h2 class="text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-10 text-indigo-800 tracking-tight">
     🌟 ค่ายในหมวด {{ category_name }} 🌟
   </h2>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-4 md:px-8">
+  <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8 px-4 sm:px-8">
     {% for camp in camps %}
       <a href="{% url 'camp_detail' camp.id %}" class="block bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden hover:-translate-y-1">
         {% if camp.image %}
-          <img src="{{ camp.image.url }}" alt="{{ camp.title }}" class="w-full h-44 object-cover">
+          <img src="{{ camp.image.url }}" alt="{{ camp.title }}" class="w-full h-32 sm:h-44 object-cover">
         {% else %}
-          <img src="https://via.placeholder.com/300x160" alt="Placeholder" class="w-full h-44 object-cover">
+          <img src="https://via.placeholder.com/300x160" alt="Placeholder" class="w-full h-32 sm:h-44 object-cover">
         {% endif %}
 
-        <div class="p-5">
-          <h3 class="text-xl font-semibold text-indigo-900 mb-2 truncate">{{ camp.title }}</h3>
-          <p class="text-sm text-gray-600 mb-2 line-clamp-3">{{ camp.description }}</p>
-          <div class="text-sm text-gray-700 space-y-1">
-            <p class="text-gray-700 text-sm">👥 ผู้เข้าร่วม: {{ camp.participants }}</p>
-            <p class="text-gray-700 text-sm">📍 สถานที่: {{ camp.location }}</p>
-            <p class="text-gray-700 text-sm">💰 ค่าใช้จ่าย: {{ camp.fee }}</p>
-            <p><strong>⏳ ปิดรับสมัคร:</strong> {{ camp.application_deadline }}</p>
+        <div class="p-3 sm:p-5">
+          <h3 class="text-sm sm:text-xl font-semibold text-indigo-900 mb-1 sm:mb-2 truncate">{{ camp.title }}</h3>
+          <p class="text-xs sm:text-sm text-gray-600 mb-1 sm:mb-2 line-clamp-3 hidden sm:block">{{ camp.description }}</p>
+          <div class="text-xs sm:text-sm text-gray-700 space-y-1">
+            <p class="text-xs sm:text-sm text-gray-700 sm:hidden">📍 สถานที่: {{ camp.location }}</p>
+            <div class="hidden sm:block">
+              <p class="text-sm text-gray-700">👥 ผู้เข้าร่วม: {{ camp.participants }}</p>
+              <p class="text-sm text-gray-700">📍 สถานที่: {{ camp.location }}</p>
+              <p class="text-sm text-gray-700">💰 ค่าใช้จ่าย: {{ camp.fee }}</p>
+              <p><strong>⏳ ปิดรับสมัคร:</strong> {{ camp.application_deadline }}</p>
+            </div>
           </div>
         </div>
       </a>

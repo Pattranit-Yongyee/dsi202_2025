@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import environ
+import os
+
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -150,3 +155,22 @@ ACCOUNT_SIGNUP_REDIRECT_URL = 'complete_profile' # Redirect ไปหน้า p
 ACCOUNT_LOGIN_ON_SIGNUP = True
 ACCOUNT_USERNAME_REQUIRED = False
 
+env = environ.Env()
+environ.Env.read_env()
+
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "SCOPE": ["profile", "email"],
+        "AUTH_PARAMS": {"access_type": "online"},
+        "APP": {
+            "client_id": env('GOOGLE_CLIENT_ID'),  # ต้องระบุ
+            "secret":  env('GOOGLE_CLIENT_SECRET'), # ต้องระบุ
+            "key": "",
+        },
+    }
+}
+
+# ------------------------ #
+# PromptPay ID (อ่านจาก .env)
+# ------------------------ #
+PROMPTPAY_ID = os.environ.get("PROMPTPAY_ID")
